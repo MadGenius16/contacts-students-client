@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.btnLogout {
+  display: flex;
+  color: #fff;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  transition: color 200ms linear;
+}
+.btnLogout:hover {
+  color: #ffffff5a;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.userName {
+  font-size: 24px;
+  font-weight: 600;
+  margin-right: 6px;
+}

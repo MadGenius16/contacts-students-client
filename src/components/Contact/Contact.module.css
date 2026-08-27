@@ -1,0 +1,20 @@
+.btn {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: 400;
+}

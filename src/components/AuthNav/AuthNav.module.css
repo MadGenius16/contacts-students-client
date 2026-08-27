@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.link {
+  font-size: 24px;
+  font-weight: 600;
+}
+.active {
+  text-decoration-line: underline;
+}
