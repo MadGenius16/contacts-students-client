@@ -13,6 +13,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { studentsReducer } from "./students/slice";
 
 const authConfig = {
   key: "auth",
@@ -23,6 +24,7 @@ const authConfig = {
 export const store = configureStore({
   reducer: {
     contacts: contactsReducer,
+    students: studentsReducer,
     filter: filtersReducer,
     auth: persistReducer(authConfig, authReducer),
   },

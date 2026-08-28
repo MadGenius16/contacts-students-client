@@ -44,7 +44,7 @@ const ContactsPage = () => {
     <>
       <Section>
         <ContactForm onAddContact={onAddContact} />
-        <SearchBox />
+        <SearchBox title="Contacts" />
         {isLoading && <p>Loading contacts...</p>}
         {error && <p>Error: {error}</p>}
         <ContactList onDeleteContact={onDeleteContact} />

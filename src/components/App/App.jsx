@@ -19,6 +19,9 @@ const RegistrationPage = lazy(
 const ContactsPage = lazy(
   () => import("../../pages/ContactsPage/ContactsPage.jsx"),
 );
+const StudentsPage = lazy(
+  () => import("../../pages/StudentsPage/StudentsPage.jsx"),
+);
 const NotFound = lazy(
   () => import("../../pages/NotFoundPage/NotFoundPage.jsx"),
 );
@@ -59,6 +62,10 @@ const App = () => {
             <Route
               path="/contacts"
               element={<PrivateRoute component={<ContactsPage />} />}
+            />
+            <Route
+              path="/students"
+              element={<PrivateRoute component={<StudentsPage />} />}
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
