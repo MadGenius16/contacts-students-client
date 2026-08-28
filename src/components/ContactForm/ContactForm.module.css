@@ -9,7 +9,7 @@
   border-radius: 10px;
   max-width: 100%;
   margin-bottom: 24px;
-  height: 300px;
+  height: 600px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   color: #fff;
 }
@@ -31,7 +31,9 @@
   padding: 10px 10px;
   font-size: 18px;
   background-color: transparent;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+  box-shadow:
+    0px 1px 1px rgba(0, 0, 0, 0.12),
+    0px 4px 4px rgba(0, 0, 0, 0.06),
     1px 4px 6px rgba(0, 0, 0, 0.16);
   color: #fff;
 }
@@ -55,7 +57,9 @@
   padding: 10px 35px;
   font-weight: 500;
   font-size: 16px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+  box-shadow:
+    0px 1px 1px rgba(0, 0, 0, 0.12),
+    0px 4px 4px rgba(0, 0, 0, 0.06),
     1px 4px 6px rgba(0, 0, 0, 0.16);
   transition: background-color 200ms linear;
 }

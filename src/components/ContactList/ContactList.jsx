@@ -11,7 +11,7 @@ const ContactList = ({ onDeleteContact }) => {
       {Array.isArray(filteredContacts) &&
         filteredContacts.map((contact) => {
           return (
-            <li className={css.item} key={contact.id}>
+            <li className={css.item} key={contact._id}>
               <Contact contacts={contact} onDeleteContact={onDeleteContact} />
             </li>
           );

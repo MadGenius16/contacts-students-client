@@ -12,11 +12,18 @@ const Contact = ({ contacts, onDeleteContact }) => {
         </li>
         <li className={css.item}>
           <IoIosCall />
-          <b className={css.text}>{contacts.number}</b>
+          <b className={css.text}>{contacts.phoneNumber}</b>
         </li>
+        {contacts.email && (
+          <li className={css.item}>
+            <span style={{ fontSize: "12px", color: "#666" }}>
+              {contacts.email}
+            </span>
+          </li>
+        )}
       </ul>
       <button
-        onClick={() => onDeleteContact(contacts.id)}
+        onClick={() => onDeleteContact(contacts._id)}
         className={css.btn}
         type="button"
       >
