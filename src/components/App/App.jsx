@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
-import Section from "../Section/Section.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { apiRefresh } from "../../redux/auth/operations.js";
 import {
@@ -41,42 +40,30 @@ const App = () => {
   }
 
   return (
-    <div>
-      <header>
-        <Section>
-          <Layout />
-        </Section>
-      </header>
-      <main>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/register"
-              element={<RestrictedRoute component={<RegistrationPage />} />}
-            />
-            <Route
-              path="/login"
-              element={<RestrictedRoute component={<LoginPage />} />}
-            />
-            <Route
-              path="/contacts"
-              element={<PrivateRoute component={<ContactsPage />} />}
-            />
-            <Route
-              path="/students"
-              element={<PrivateRoute component={<StudentsPage />} />}
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </main>
-      <footer className={css.footer}>
-        <Section>
-          <p>© 2026 MyApp. Crafted with ❤️</p>
-        </Section>
-      </footer>
-    </div>
+    <Layout>
+      <Suspense fallback={<div className={css.loader}>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/register"
+            element={<RestrictedRoute component={<RegistrationPage />} />}
+          />
+          <Route
+            path="/login"
+            element={<RestrictedRoute component={<LoginPage />} />}
+          />
+          <Route
+            path="/contacts"
+            element={<PrivateRoute component={<ContactsPage />} />}
+          />
+          <Route
+            path="/students"
+            element={<PrivateRoute component={<StudentsPage />} />}
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </Layout>
   );
 };
 

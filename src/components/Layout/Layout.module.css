@@ -1,0 +1,20 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f8fafc;
+}
+
+.mainWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.mainContent {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}

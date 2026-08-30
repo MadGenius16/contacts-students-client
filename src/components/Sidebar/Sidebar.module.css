@@ -1,0 +1,73 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  z-index: 100;
+  transition: all 0.25s ease-in-out;
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #111827;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.brand:hover {
+  opacity: 0.85;
+}
+
+.logoBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.logoText {
+  font-family: inherit;
+}
+
+.brandTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+
+.navSection {
+  width: 100%;
+}
+
+.bottomSection {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
