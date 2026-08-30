@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import css from "./StudentForm.module.css";
 import * as Yup from "yup";
+import css from "./StudentForm.module.css";
 
 const INITIAL_STATE = {
   name: "",
@@ -13,16 +13,16 @@ const INITIAL_STATE = {
 
 const studentSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, "Too Short!")
-    .max(30, "Too Long!")
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
     .required("Name is required"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
   age: Yup.number()
     .typeError("Age must be a number")
-    .min(6, "Age must be at least 6 years old")
-    .max(100, "Age must be at most 100 years old")
+    .min(5, "Age must be at least 5")
+    .max(100, "Age must be at most 100")
     .required("Age is required"),
   gender: Yup.string()
     .oneOf(["male", "female", "other"])
@@ -30,14 +30,13 @@ const studentSchema = Yup.object().shape({
   avgMark: Yup.number()
     .typeError("Average mark must be a number")
     .min(1, "Mark must be at least 1")
-    .max(12, "Mark must be at most 12")
+    .max(100, "Mark must be at most 100")
     .required("Average mark is required"),
   onDuty: Yup.boolean(),
 });
 
-const StudentForm = ({ onAddStudent }) => {
+const StudentForm = ({ onAddStudent, onCancel }) => {
   const handleSubmit = (values, actions) => {
-    // Перетворюємо рядкові значення чисел у справжні числа перед відправкою на бекенд
     const formattedValues = {
       ...values,
       age: Number(values.age),
@@ -50,22 +49,20 @@ const StudentForm = ({ onAddStudent }) => {
   };
 
   return (
-    <div>
-      <Formik
-        initialValues={INITIAL_STATE}
-        onSubmit={handleSubmit}
-        validationSchema={studentSchema}
-      >
-        <Form className={css.form}>
-          <h2 className={css.title}>Add New Student</h2>
-
+    <Formik
+      initialValues={INITIAL_STATE}
+      onSubmit={handleSubmit}
+      validationSchema={studentSchema}
+    >
+      <Form className={css.form}>
+        <div className={css.fieldGroup}>
           <label className={css.label}>
-            <span>Name</span>
+            <span className={css.labelText}>Full Name</span>
             <Field
               className={css.field}
               name="name"
               type="text"
-              placeholder="Harry Potter"
+              placeholder="Emily Chen"
             />
             <ErrorMessage
               className={css.errorMessage}
@@ -73,14 +70,16 @@ const StudentForm = ({ onAddStudent }) => {
               component="span"
             />
           </label>
+        </div>
 
+        <div className={css.fieldGroup}>
           <label className={css.label}>
-            <span>Email</span>
+            <span className={css.labelText}>Email Address</span>
             <Field
               className={css.field}
               name="email"
               type="email"
-              placeholder="harry@hogwarts.edu"
+              placeholder="emily.c@example.com"
             />
             <ErrorMessage
               className={css.errorMessage}
@@ -88,70 +87,84 @@ const StudentForm = ({ onAddStudent }) => {
               component="span"
             />
           </label>
+        </div>
 
-          <label className={css.label}>
-            <span>Age</span>
-            <Field
-              className={css.field}
-              name="age"
-              type="number"
-              placeholder="15"
-            />
-            <ErrorMessage
-              className={css.errorMessage}
-              name="age"
-              component="span"
-            />
+        <div className={css.row}>
+          <div className={css.fieldGroup}>
+            <label className={css.label}>
+              <span className={css.labelText}>Age</span>
+              <Field
+                className={css.field}
+                name="age"
+                type="number"
+                placeholder="21"
+              />
+              <ErrorMessage
+                className={css.errorMessage}
+                name="age"
+                component="span"
+              />
+            </label>
+          </div>
+
+          <div className={css.fieldGroup}>
+            <label className={css.label}>
+              <span className={css.labelText}>Gender</span>
+              <Field as="select" className={css.selectField} name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </Field>
+              <ErrorMessage
+                className={css.errorMessage}
+                name="gender"
+                component="span"
+              />
+            </label>
+          </div>
+
+          <div className={css.fieldGroup}>
+            <label className={css.label}>
+              <span className={css.labelText}>Avg Mark</span>
+              <Field
+                className={css.field}
+                name="avgMark"
+                type="number"
+                step="0.1"
+                placeholder="88"
+              />
+              <ErrorMessage
+                className={css.errorMessage}
+                name="avgMark"
+                component="span"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div className={css.checkboxGroup}>
+          <label className={css.checkboxLabel}>
+            <Field name="onDuty" type="checkbox" className={css.checkbox} />
+            <span className={css.checkboxText}>Assign to Duty immediately</span>
           </label>
+        </div>
 
-          <label className={css.label}>
-            <span>Gender</span>
-            <Field as="select" className={css.field} name="gender">
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </Field>
-            <ErrorMessage
-              className={css.errorMessage}
-              name="gender"
-              component="span"
-            />
-          </label>
-
-          <label className={css.label}>
-            <span>Average Mark (1 - 12)</span>
-            <Field
-              className={css.field}
-              name="avgMark"
-              type="number"
-              step="0.1"
-              placeholder="10.5"
-            />
-            <ErrorMessage
-              className={css.errorMessage}
-              name="avgMark"
-              component="span"
-            />
-          </label>
-
-          <label className={css.checkboxLabel || css.label}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <Field name="onDuty" type="checkbox" />
-              <span>On Duty </span>
-            </div>
-            <ErrorMessage
-              className={css.errorMessage}
-              name="onDuty"
-              component="span"
-            />
-          </label>
-
-          <button className={css.btn} type="submit">
-            Add student
+        <div className={css.btnRow}>
+          {onCancel && (
+            <button
+              type="button"
+              className={css.cancelBtn}
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          )}
+          <button className={css.submitBtn} type="submit">
+            Add Student
           </button>
-        </Form>
-      </Formik>
-    </div>
+        </div>
+      </Form>
+    </Formik>
   );
 };
 

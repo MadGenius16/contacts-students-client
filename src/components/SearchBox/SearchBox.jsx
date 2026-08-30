@@ -1,25 +1,43 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LuSearch, LuX } from "react-icons/lu";
+import { changeFilter, selectFilter } from "../../redux/filters/slice.js";
 import css from "./Searchbox.module.css";
-import { useDispatch } from "react-redux";
-import { changeFilter } from "../../redux/filters/slice";
 
-const SearchBox = ({ title }) => {
+const SearchBox = ({ placeholder = "Search students..." }) => {
   const dispatch = useDispatch();
-  const filterValue = useSelector((state) => state.filter.name);
+  const filterValue = useSelector(selectFilter) || "";
+
   const handleFilter = (e) => {
     dispatch(changeFilter(e.target.value));
   };
 
+  const handleClear = () => {
+    dispatch(changeFilter(""));
+  };
+
   return (
-    <div>
-      {title && <h3 className={css.text}>Find {title} by name</h3>}
+    <div className={css.searchWrapper}>
       <input
         className={css.field}
         type="text"
-        name="search"
+        placeholder={placeholder}
         value={filterValue}
         onChange={handleFilter}
+        aria-label="Search"
       />
+      {filterValue ? (
+        <button
+          type="button"
+          onClick={handleClear}
+          className={css.clearBtn}
+          aria-label="Clear search"
+          title="Clear search"
+        >
+          <LuX className={css.searchIcon} />
+        </button>
+      ) : (
+        <LuSearch className={css.searchIcon} />
+      )}
     </div>
   );
 };

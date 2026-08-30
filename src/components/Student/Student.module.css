@@ -1,63 +1,210 @@
 .card {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: 16px;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
 }
 
-.info {
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  border-color: #cbd5e1;
+}
+
+/* 1. Верхній блок: Аватар + Ім'я */
+.header {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a8888 0%, #4fada2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2b2a2a;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.25);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitial {
+  line-height: 1;
 }
 
 .name {
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  color: #fff;
+  color: #111827;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.details {
+/* 2. Рядок капсульних бейджів */
+.badgesRow {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
-  gap: 12px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.85);
 }
 
 .badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background-color: #e3f1f0;
+  color: #444141;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
-.dutyBadge {
-  background-color: #10b981;
-  color: #fff;
+/* 3. Рядок статусу чергування (Duty On / Off) */
+.dutyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
-.notDutyBadge {
-  background-color: #64748b;
-  color: #cbd5e1;
-}
-
-.btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+.dutyLabel {
   font-size: 16px;
-  padding: 6px 10px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.toggleBtn {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background-color: #cbd5e1;
+  border: none;
+  border-radius: 9999px;
+  padding: 2px 3px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.25s ease;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.toggleActive {
+  background-color: #2a9d8f;
+}
+
+.toggleKnob {
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+}
+
+.toggleActive .toggleKnob {
+  transform: translateX(22px);
+}
+
+/* 4 & 6. Роздільники */
+.divider {
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  margin: 12px 0;
+  width: 100%;
+}
+
+/* 5. Інформаційний блок (Email & Phone) */
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.infoKey {
+  color: #4a4848;
+  font-weight: 500;
+  min-width: 58px;
+}
+
+.infoVal {
+  color: #0c0c0c;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 7. Футер дій (іконки) */
+.footerActions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.actionIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 8px;
+  color: #64748b;
   cursor: pointer;
   transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
+    color 0.2s ease,
+    transform 0.15s ease;
 }
 
-.btn:hover {
-  background-color: rgba(239, 68, 68, 0.2);
-  transform: scale(1.05);
+.actionIconBtn:hover {
+  color: #0f172a;
+  transform: scale(1.15);
+}
+
+.deleteIconBtn:hover {
+  color: #ef4444;
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
 }
