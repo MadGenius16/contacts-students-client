@@ -1,25 +1,31 @@
-import css from "./AuthNav.module.css";
 import { NavLink } from "react-router-dom";
+import { LuLogIn, LuUserPlus } from "react-icons/lu";
 import clsx from "clsx";
+import css from "./AuthNav.module.css";
 
 const AuthNav = () => {
-  const buildLinkClass = ({ isActive }) => {
-    return clsx(css.link, isActive && css.active);
-  };
   return (
-    <ul className={css.wrapper}>
-      <li>
-        {" "}
-        <NavLink to="/register" className={buildLinkClass}>
-          register
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/login" className={buildLinkClass}>
-          login
-        </NavLink>
-      </li>
-    </ul>
+    <div className={css.authContainer}>
+      <NavLink
+        to="/login"
+        className={({ isActive }) =>
+          clsx(css.btn, css.btnLogin, isActive && css.active)
+        }
+      >
+        <LuLogIn className={css.icon} />
+        <span>Log In</span>
+      </NavLink>
+
+      <NavLink
+        to="/register"
+        className={({ isActive }) =>
+          clsx(css.btn, css.btnRegister, isActive && css.active)
+        }
+      >
+        <LuUserPlus className={css.icon} />
+        <span>Register</span>
+      </NavLink>
+    </div>
   );
 };
 
