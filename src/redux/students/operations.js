@@ -3,12 +3,25 @@ import { instance } from "../auth/operations";
 
 export const fetchStudents = createAsyncThunk(
   "students/fetchAll",
-  async (_, thunkAPI) => {
+  async (params = {}, thunkAPI) => {
     try {
+      const queryParams = {
+        page: params.page || 1,
+        perPage: params.perPage || 12,
+      };
+
+      if (params.onDuty !== undefined && params.onDuty !== null) {
+        queryParams.onDuty = params.onDuty;
+      }
+
+      if (params.search && params.search.trim()) {
+        queryParams.search = params.search.trim();
+      }
+
       const { data } = await instance.get("/students", {
-        params: { perPage: 100 },
+        params: queryParams,
       });
-      return data.data.data;
+      return data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message,

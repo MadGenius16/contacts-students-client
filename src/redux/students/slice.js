@@ -11,6 +11,12 @@ const INITIAL_STATE = {
     items: [],
     loading: false,
     error: null,
+    page: 1,
+    perPage: 12,
+    totalItems: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
   },
 };
 
@@ -25,7 +31,13 @@ const slice = createSlice({
       })
       .addCase(fetchStudents.fulfilled, (state, action) => {
         state.students.loading = false;
-        state.students.items = action.payload;
+        state.students.items = action.payload.data;
+        state.students.page = action.payload.page;
+        state.students.perPage = action.payload.perPage;
+        state.students.totalItems = action.payload.totalItems;
+        state.students.totalPages = action.payload.totalPages;
+        state.students.hasNextPage = action.payload.hasNextPage;
+        state.students.hasPreviousPage = action.payload.hasPreviousPage;
       })
       .addCase(fetchStudents.rejected, (state, action) => {
         state.students.loading = false;

@@ -14,6 +14,10 @@ import {
   selectError,
   selectLoading,
   selectFilteredStudents,
+  selectTotalPages,
+  selectTotalItems,
+  selectHasNextPage,
+  selectHasPrevPage,
 } from "../../redux/students/selectors.js";
 import SearchBox from "../../components/SearchBox/SearchBox.jsx";
 import StudentList from "../../components/StudentList/StudentList.jsx";
@@ -24,26 +28,42 @@ import css from "./StudentsPage.module.css";
 
 const StudentsPage = () => {
   const dispatch = useDispatch();
+
+  // Дані з Redux
+  const students = useSelector(selectFilteredStudents);
   const isLoading = useSelector(selectLoading);
   const error = useSelector(selectError);
-  const filteredStudents = useSelector(selectFilteredStudents);
+  const totalPages = useSelector(selectTotalPages) || 1;
+  const totalItems = useSelector(selectTotalItems) || 0;
+  const hasNextPage = useSelector(selectHasNextPage);
+  const hasPrevPage = useSelector(selectHasPrevPage);
 
+  // Локальний стейт для серверної пагінації та фільтрації
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPerPage, setCurrentPerPage] = useState(12);
+  const [dutyFilter, setDutyFilter] = useState("all"); // "all" | "dutyOn" | "dutyOff"
+
+  // Стейт модальних вікон
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStudentForView, setSelectedStudentForView] = useState(null);
-  const [dutyFilter, setDutyFilter] = useState("all"); // "all" | "dutyOn" | "dutyOff" | "topMarks"
 
-  // Стейт для пагінації (10, 16 або 24 на сторінку)
-  const [perPage, setPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-
+  // Серверний запит щоразу при зміні сторінки, ліміту на сторінку або статусу чергування
   useEffect(() => {
-    dispatch(fetchStudents())
+    dispatch(
+      fetchStudents({
+        page: currentPage,
+        perPage: currentPerPage,
+        onDuty:
+          dutyFilter === "dutyOn"
+            ? true
+            : dutyFilter === "dutyOff"
+              ? false
+              : undefined,
+      }),
+    )
       .unwrap()
-      .then(() => {
-        toast.success("Students loaded 📗");
-      })
       .catch(() => {});
-  }, [dispatch]);
+  }, [dispatch, currentPage, currentPerPage, dutyFilter]);
 
   const onAddStudent = (studentObject) => {
     dispatch(addStudents(studentObject))
@@ -51,6 +71,19 @@ const StudentsPage = () => {
       .then(() => {
         toast.success("Student added successfully! 🎉");
         setIsModalOpen(false);
+        // Оновлюємо поточну сторінку з сервера
+        dispatch(
+          fetchStudents({
+            page: currentPage,
+            perPage: currentPerPage,
+            onDuty:
+              dutyFilter === "dutyOn"
+                ? true
+                : dutyFilter === "dutyOff"
+                  ? false
+                  : undefined,
+          }),
+        );
       })
       .catch((err) => {
         toast.error(typeof err === "string" ? err : "Failed to add student");
@@ -62,6 +95,23 @@ const StudentsPage = () => {
       .unwrap()
       .then(() => {
         toast.success("Student deleted 📙");
+        // Якщо на сторінці був лише 1 студент і ми видалили його на сторінці > 1
+        if (students.length === 1 && currentPage > 1) {
+          setCurrentPage((prev) => prev - 1);
+        } else {
+          dispatch(
+            fetchStudents({
+              page: currentPage,
+              perPage: currentPerPage,
+              onDuty:
+                dutyFilter === "dutyOn"
+                  ? true
+                  : dutyFilter === "dutyOff"
+                    ? false
+                    : undefined,
+            }),
+          );
+        }
       })
       .catch((err) => {
         toast.error(typeof err === "string" ? err : "Failed to delete student");
@@ -78,7 +128,6 @@ const StudentsPage = () => {
       .unwrap()
       .then(() => {
         toast.success("Duty status updated! 🛡️");
-        // Якщо зараз відкрита модалка 2х для цього студента, оновлюємо і її
         if (selectedStudentForView && selectedStudentForView._id === studentId) {
           setSelectedStudentForView((prev) => ({
             ...prev,
@@ -91,40 +140,8 @@ const StudentsPage = () => {
       });
   };
 
-  // Підрахунок кількості студентів за категоріями для бейджів
-  const allCount = Array.isArray(filteredStudents)
-    ? filteredStudents.length
-    : 0;
-  const dutyOnCount = Array.isArray(filteredStudents)
-    ? filteredStudents.filter((s) => s.onDuty).length
-    : 0;
-  const dutyOffCount = Array.isArray(filteredStudents)
-    ? filteredStudents.filter((s) => !s.onDuty).length
-    : 0;
-
-  // Фільтрація
-  const displayedStudents = Array.isArray(filteredStudents)
-    ? filteredStudents.filter((student) => {
-        if (dutyFilter === "dutyOn") return Boolean(student.onDuty);
-        if (dutyFilter === "dutyOff") return !student.onDuty;
-        if (dutyFilter === "topMarks") return Number(student.avgMark) >= 10;
-        return true;
-      })
-    : [];
-
-  // Розрахунок пагінації
-  const totalStudents = displayedStudents.length;
-  const totalPages = Math.max(1, Math.ceil(totalStudents / perPage));
-  const activePage = Math.min(currentPage, totalPages);
-
-  const startIndex = (activePage - 1) * perPage;
-  const paginatedStudents = displayedStudents.slice(
-    startIndex,
-    startIndex + perPage,
-  );
-
   const handlePerPageChange = (e) => {
-    setPerPage(Number(e.target.value));
+    setCurrentPerPage(Number(e.target.value));
     setCurrentPage(1);
   };
 
@@ -138,17 +155,17 @@ const StudentsPage = () => {
   return (
     <div className={css.pageWrapper}>
       <Section>
-        {/* Верхній заголовок сторінки */}
+        {/* 1. Верхній заголовок сторінки */}
         <div className={css.headerRow}>
           <div className={css.titleWrapper}>
             <h1 className={css.pageTitle}>Students</h1>
-            <span className={css.totalBadge}>{allCount} Total</span>
+            <span className={css.totalBadge}>{totalItems} Total</span>
           </div>
           {isLoading && <p className={css.statusText}>Loading...</p>}
           {error && <p className={css.errorText}>Error: {error}</p>}
         </div>
 
-        {/* Рядок пошуку та кнопка + Add Student */}
+        {/* 2. Рядок пошуку та кнопка + Add Student */}
         <div className={css.searchBarRow}>
           <SearchBox placeholder="Search students..." />
           <button
@@ -161,7 +178,7 @@ const StudentsPage = () => {
           </button>
         </div>
 
-        {/* Рядок активних Pill-чіпів фільтрації та селектора Per page */}
+        {/* 3. Рядок активних Pill-чіпів фільтрації та вибору кількості */}
         <div className={css.filterRow}>
           <div className={css.filterChips}>
             <button
@@ -175,7 +192,7 @@ const StudentsPage = () => {
                 setCurrentPage(1);
               }}
             >
-              All ({allCount})
+              All
             </button>
 
             <button
@@ -189,7 +206,7 @@ const StudentsPage = () => {
                 setCurrentPage(1);
               }}
             >
-              <span>On Duty ({dutyOnCount})</span>
+              <span>On Duty</span>
               {dutyFilter === "dutyOn" && <LuX className={css.chipClose} />}
             </button>
 
@@ -204,28 +221,13 @@ const StudentsPage = () => {
                 setCurrentPage(1);
               }}
             >
-              <span>Duty Off ({dutyOffCount})</span>
+              <span>Duty Off</span>
               {dutyFilter === "dutyOff" && <LuX className={css.chipClose} />}
-            </button>
-
-            <button
-              type="button"
-              className={clsx(
-                css.filterChip,
-                dutyFilter === "topMarks" && css.activeChip,
-              )}
-              onClick={() => {
-                setDutyFilter(dutyFilter === "topMarks" ? "all" : "topMarks");
-                setCurrentPage(1);
-              }}
-            >
-              <span>Top Marks (10+)</span>
-              {dutyFilter === "topMarks" && <LuX className={css.chipClose} />}
             </button>
           </div>
 
           <div className={css.rightControls}>
-            {/* Випадаючий список вибору кількості карток (10, 16, 24) */}
+            {/* Випадаючий список вибору кількості карток на сторінку (10, 12, 16, 24) */}
             <div className={css.perPageWrapper}>
               <label htmlFor="perPageSelect" className={css.perPageLabel}>
                 Show:
@@ -233,10 +235,11 @@ const StudentsPage = () => {
               <select
                 id="perPageSelect"
                 className={css.perPageSelect}
-                value={perPage}
+                value={currentPerPage}
                 onChange={handlePerPageChange}
               >
-                <option value={10}>10</option>
+         
+                <option value={12}>12</option>
                 <option value={16}>16</option>
                 <option value={24}>24</option>
               </select>
@@ -244,23 +247,23 @@ const StudentsPage = () => {
           </div>
         </div>
 
-        {/* Список карток студентів */}
+        {/* 4. Список карток студентів з поточної сторінки сервера */}
         <StudentList
-          students={paginatedStudents}
+          students={students}
           onDeleteStudent={onDeleteStudent}
           onToggleDuty={onToggleDuty}
           onViewStudent={(student) => setSelectedStudentForView(student)}
         />
 
-        {/* Плаваючий капсульний пагінатор (Floating Pagination) */}
-        {totalStudents > 0 && (
+        {/* 5. Плаваючий капсульний пагінатор (Floating Pagination) */}
+        {totalItems > 0 && (
           <div className={css.floatingPaginationContainer}>
             <div className={css.floatingPagination}>
               <button
                 type="button"
                 className={css.floatingBtn}
-                onClick={() => handlePageChange(activePage - 1)}
-                disabled={activePage === 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={!hasPrevPage && currentPage === 1}
               >
                 Prev
               </button>
@@ -268,7 +271,7 @@ const StudentsPage = () => {
               <span className={css.floatingDivider} />
 
               <span className={css.floatingPageInfo}>
-                Page {activePage} of {totalPages}
+                Page {currentPage} of {totalPages}
               </span>
 
               <span className={css.floatingDivider} />
@@ -276,8 +279,8 @@ const StudentsPage = () => {
               <button
                 type="button"
                 className={css.floatingBtn}
-                onClick={() => handlePageChange(activePage + 1)}
-                disabled={activePage === totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={!hasNextPage && currentPage >= totalPages}
               >
                 Next
               </button>
@@ -285,7 +288,7 @@ const StudentsPage = () => {
           </div>
         )}
 
-        {/* 1. Модальне вікно з формою додавання студента */}
+        {/* Модальне вікно з формою додавання студента */}
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -297,7 +300,7 @@ const StudentsPage = () => {
           />
         </Modal>
 
-        {/* 2. Модальне вікно перегляду картки студента 2х */}
+        {/* Модальне вікно перегляду картки студента 2х */}
         <Modal
           isOpen={Boolean(selectedStudentForView)}
           onClose={() => setSelectedStudentForView(null)}
