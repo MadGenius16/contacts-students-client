@@ -3,7 +3,13 @@ import { selectFilteredStudents } from "../../redux/students/selectors";
 import Student from "../Student/Student";
 import css from "./StudentList.module.css";
 
-const StudentList = ({ students, onDeleteStudent, onToggleDuty }) => {
+const StudentList = ({
+  students,
+  onDeleteStudent,
+  onToggleDuty,
+  onViewStudent,
+  onEditStudent,
+}) => {
   const storeStudents = useSelector(selectFilteredStudents);
   const studentList = students !== undefined ? students : storeStudents;
 
@@ -20,6 +26,8 @@ const StudentList = ({ students, onDeleteStudent, onToggleDuty }) => {
                 student={student}
                 onDeleteStudent={onDeleteStudent}
                 onToggleDuty={onToggleDuty}
+                onViewStudent={onViewStudent}
+                onEditStudent={onEditStudent}
               />
             </li>
           );

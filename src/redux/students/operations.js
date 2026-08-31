@@ -5,7 +5,9 @@ export const fetchStudents = createAsyncThunk(
   "students/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const { data } = await instance.get("/students");
+      const { data } = await instance.get("/students", {
+        params: { perPage: 100 },
+      });
       return data.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

@@ -23,7 +23,7 @@
 /* Styles for Desktop devices */
 @media screen and (min-width: 1200px) {
   .container {
-    max-width: 1440px;
-    padding: 0 40px;
+    max-width: 1600px;
+    padding: 0 32px;
   }
 }

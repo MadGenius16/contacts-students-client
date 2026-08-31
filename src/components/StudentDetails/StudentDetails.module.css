@@ -1,0 +1,324 @@
+.detailsCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 1. Верхній блок 2х */
+.heroSection {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e293b 0%, #2a9d8f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(42, 157, 143, 0.3);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitial {
+  line-height: 1;
+}
+
+.heroInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+
+.subTitle {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.dutyOnPill {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.dutyOffPill {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.pillIcon {
+  width: 15px;
+  height: 15px;
+}
+
+/* 2. Показники (Flexbox замість Grid) */
+.metricsContainer {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.metricCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 14px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.metricLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.metricIcon {
+  width: 14px;
+  height: 14px;
+  color: #2a9d8f;
+}
+
+.metricValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.metricValueHighlight {
+  font-size: 16px;
+  font-weight: 800;
+  /* color: #2a9d8f; */
+
+}
+
+/* 3. Прогрес успішності */
+.progressBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 12px;
+}
+
+.progressLabels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progressTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  text-transform: uppercase;
+}
+
+.progressPercent {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0d9488;
+}
+
+.progressBarTrack {
+  width: 100%;
+  height: 8px;
+  background-color: #e6fffa;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #2a9d8f 0%, #0d9488 100%);
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+/* 4. Контактні дані */
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.iconBubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: #f1f5f9;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.infoIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.infoTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.infoLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.infoLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.infoLink:hover {
+  color: #2a9d8f;
+  text-decoration: underline;
+}
+
+/* 5. Кнопки дій */
+.actionsRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.toggleDutyBtn {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #2a9d8f;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.toggleDutyBtn:hover {
+  background-color: #238276;
+}
+
+.toggleDutyActive {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.toggleDutyActive:hover {
+  background-color: #e2e8f0;
+}
+
+.closeBtn {
+  padding: 12px 20px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #475569;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.closeBtn:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}

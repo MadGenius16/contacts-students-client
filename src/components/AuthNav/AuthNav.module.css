@@ -48,5 +48,5 @@
 }
 
 .btn.active {
-  ring: 2px solid #0d9488;
+  outline: 1px solid #0d9488;
 }
