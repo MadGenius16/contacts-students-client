@@ -4,6 +4,7 @@ import css from "./StudentForm.module.css";
 
 const INITIAL_STATE = {
   name: "",
+  phoneNumber: "",
   email: "",
   age: "",
   gender: "male",
@@ -16,6 +17,10 @@ const studentSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Name is required"),
+  phoneNumber: Yup.string()
+    .min(8, "Must be at least 8 digits")
+    .max(20, "Too Long!")
+    .required("Phone number is required"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
@@ -67,6 +72,23 @@ const StudentForm = ({ onAddStudent, onCancel }) => {
             <ErrorMessage
               className={css.errorMessage}
               name="name"
+              component="span"
+            />
+          </label>
+        </div>
+
+        <div className={css.fieldGroup}>
+          <label className={css.label}>
+            <span className={css.labelText}>Phone Number</span>
+            <Field
+              className={css.field}
+              name="phoneNumber"
+              type="text"
+              placeholder="+380501234567"
+            />
+            <ErrorMessage
+              className={css.errorMessage}
+              name="phoneNumber"
               component="span"
             />
           </label>
@@ -131,7 +153,7 @@ const StudentForm = ({ onAddStudent, onCancel }) => {
                 name="avgMark"
                 type="number"
                 step="0.1"
-                placeholder="88"
+                placeholder="8"
               />
               <ErrorMessage
                 className={css.errorMessage}

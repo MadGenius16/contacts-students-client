@@ -37,7 +37,7 @@ const slice = createSlice({
       })
       .addCase(addStudents.fulfilled, (state, action) => {
         state.students.loading = false;
-        state.students.items.push(action.payload);
+        state.students.items.push(action.payload) ;
       })
       .addCase(addStudents.rejected, (state, action) => {
         state.students.loading = false;

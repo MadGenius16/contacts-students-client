@@ -11,7 +11,7 @@
   margin-bottom: 18px;
   height: 330px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  color: #fff;
+  color: #232222;
 }
 .title {
   font-size: 28px;
@@ -33,10 +33,10 @@
   background-color: transparent;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
     1px 4px 6px rgba(0, 0, 0, 0.16);
-  color: #fff;
+  color: #232222;
 }
 .field::placeholder {
-  color: #fff;
+  color: #232222;
   opacity: 0.5;
 }
 
