@@ -5,19 +5,12 @@ import css from "./Student.module.css";
 const Student = ({
   student,
   onDeleteStudent,
-  onToggleDuty,
   onViewStudent,
   onEditStudent,
 }) => {
   if (!student) return null;
 
   const initial = student.name ? student.name.charAt(0).toUpperCase() : "S";
-
-  const handleToggle = () => {
-    if (onToggleDuty && student._id) {
-      onToggleDuty(student._id, student.onDuty);
-    }
-  };
 
   const handleDelete = () => {
     if (onDeleteStudent && student._id) {
@@ -37,7 +30,7 @@ const Student = ({
     }
   };
 
-  // Форматування значень для капсульних бейджів точно як на скріншоті
+  // Форматування значень для капсульних бейджів
   const genderText = student.gender ? student.gender.toUpperCase() : "STUDENT";
   const ageText = student.age ? `${student.age} YRS` : "— YRS";
   const avgText =
@@ -65,33 +58,25 @@ const Student = ({
         </h3>
       </div>
 
-      {/* 2. Рядок капсульних бейджів: FEMALE | 21 YRS | 88% AVG */}
+      {/* 2. Рядок капсульних бейджів: MALE | 15 YRS | 10.6 AVG | ON DUTY */}
       <div className={css.badgesRow}>
         <span className={css.badge}>{genderText}</span>
         <span className={css.badge}>{ageText}</span>
         <span className={css.badge}>{avgText}</span>
-      </div>
-
-      {/* 3. Рядок статусу чергування (Duty On / Off) з великим перемикачем */}
-      <div className={css.dutyRow}>
-        <span className={css.dutyLabel}>
-          {student.onDuty ? "Duty On" : "Duty Off"}
-        </span>
-        <button
-          type="button"
-          onClick={handleToggle}
-          className={clsx(css.toggleBtn, student.onDuty && css.toggleActive)}
-          aria-label={student.onDuty ? "Turn duty off" : "Turn duty on"}
-          title="Toggle duty status"
+        <span
+          className={clsx(
+            css.badge,
+            student.onDuty ? css.dutyBadgeOn : css.dutyBadgeOff,
+          )}
         >
-          <span className={css.toggleKnob} />
-        </button>
+          {student.onDuty ? "ON DUTY" : "DUTY OFF"}
+        </span>
       </div>
 
-      {/* 4. Роздільник */}
+      {/* 3. Роздільник */}
       <hr className={css.divider} />
 
-      {/* 5. Інформаційний блок: Email та Phone */}
+      {/* 4. Інформаційний блок: Email та Phone */}
       <div className={css.infoSection}>
         <div className={css.infoRow}>
           <span className={css.infoKey}>Email:</span>
@@ -102,15 +87,15 @@ const Student = ({
         <div className={css.infoRow}>
           <span className={css.infoKey}>Phone:</span>
           <span className={css.infoVal}>
-            {student.phone || "(555) 123-4567"}
+            {student.phoneNumber || student.phone || "(555) 123-4567"}
           </span>
         </div>
       </div>
 
-      {/* 6. Роздільник */}
+      {/* 5. Роздільник */}
       <hr className={css.divider} />
 
-      {/* 7. Футер з трьома іконками дій: Перегляд, Редагування, Видалення */}
+      {/* 6. Футер з трьома іконками дій: Перегляд, Редагування, Видалення */}
       <div className={css.footerActions}>
         <button
           type="button"

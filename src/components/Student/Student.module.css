@@ -5,7 +5,7 @@
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 18px;
-  padding: 20px;
+  padding: 18px 20px;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition:
@@ -27,19 +27,19 @@
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: linear-gradient(135deg, #8a8888 0%, #4fada2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2b2a2a;
+  color: #ffffff;
   font-weight: 700;
   font-size: 18px;
   flex-shrink: 0;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.25);
+  box-shadow: 0 2px 6px rgba(42, 157, 143, 0.25);
 }
 
 .avatarImg {
@@ -54,7 +54,7 @@
 
 .name {
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: #111827;
   letter-spacing: -0.2px;
@@ -67,118 +67,82 @@
 .badgesRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
   margin-top: 14px;
-  margin-bottom: 14px;
-  /* flex-wrap: wrap; */
+  margin-bottom: 12px;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: #e3f1f0;
-  color: #444141;
+  color: #334155;
   border-radius: 9999px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   line-height: 1;
   text-transform: uppercase;
 }
 
-/* 3. Рядок статусу чергування (Duty On / Off) */
-.dutyRow {
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  margin-bottom: 6px;
-  gap: 20px;
+.dutyBadgeOn {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
-.dutyLabel {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1e293b;
+.dutyBadgeOff {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid rgba(203, 213, 225, 0.4);
 }
 
-.toggleBtn {
-  position: relative;
-  width: 48px;
-  /* height: 26px; */
-  background-color: #cbd5e1;
-  border: none;
-  border-radius: 9999px;
-  padding: 2px 3px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.25s ease;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.toggleActive {
-  background-color: #2a9d8f;
-}
-
-.toggleKnob {
-  width: 20px;
-  height: 20px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateX(0);
-}
-
-.toggleActive .toggleKnob {
-  transform: translateX(22px);
-}
-
-/* 4 & 6. Роздільники */
+/* 3 & 5. Роздільники */
 .divider {
   border: none;
   border-top: 1px solid #f1f5f9;
-  /* margin: 12px 0; */
+  margin: 10px 0;
   width: 100%;
 }
 
-/* 5. Інформаційний блок (Email & Phone) */
+/* 4. Інформаційний блок (Email & Phone) */
 .infoSection {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding: 2px 0;
 }
 
 .infoRow {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.4;
 }
 
 .infoKey {
-  color: #4a4848;
+  color: #64748b;
   font-weight: 500;
-  min-width: 58px;
+  min-width: 54px;
 }
 
 .infoVal {
-  color: #0c0c0c;
-  font-weight: 500;
+  color: #0f172a;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* 7. Футер дій (іконки) */
+/* 6. Футер дій (іконки) */
 .footerActions {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-top: 2px;
+  padding-top: 4px;
 }
 
 .actionIconBtn {
@@ -206,6 +170,6 @@
 }
 
 .actionIcon {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
 }
