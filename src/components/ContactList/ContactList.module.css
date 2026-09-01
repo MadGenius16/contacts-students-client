@@ -1,20 +1,144 @@
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.tableCard {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 16px;
 }
 
-.item {
+/* 1. Заголовки колонок таблиці (точно як на скріншоті) */
+.tableHeader {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  max-width: 100%;
-  border: 1px solid #ffffff5a;
-  background-color: transparent;
-  backdrop-filter: blur(20px);
-  padding: 10px 10px;
-  border-radius: 10px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-    1px 4px 6px rgba(0, 0, 0, 0.16);
+  width: 100%;
+  padding: 14px 20px;
+  background-color: #ffffff;
+  border-bottom: 2px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.thPhotoName {
+  flex: 2.2;
+  min-width: 200px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  padding-right: 16px;
+  box-sizing: border-box;
+}
+
+.thContactInfo {
+  flex: 3;
+  min-width: 220px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  padding: 0 20px;
+  border-left: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.thRole {
+  flex: 1.2;
+  min-width: 110px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  padding: 0 20px;
+  border-left: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.thStatus {
+  flex: 1.5;
+  min-width: 130px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  padding-left: 20px;
+  border-left: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+/* 2. Тіло списку */
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.emptyText {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* ============================================================
+   АДАПТИВНІСТЬ ДЛЯ 3-Х ТИПІВ ПРИСТРОЇВ (NO GRID, PURE FLEXBOX)
+   ============================================================ */
+
+/* 📱 1. Mobile (< 768px): Ховаємо заголовки колонок */
+@media screen and (max-width: 767px) {
+  .tableCard {
+    border-radius: 14px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .tableHeader {
+    display: none;
+  }
+
+  .tableBody {
+    gap: 12px;
+  }
+
+  .tableBody > div {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* 💻 2. Tablet (768px – 1199px) */
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .tableHeader {
+    padding: 12px 16px;
+  }
+
+  .thPhotoName {
+    flex: 2;
+    min-width: 170px;
+    padding-right: 12px;
+  }
+
+  .thContactInfo {
+    flex: 2.5;
+    min-width: 190px;
+    padding: 0 14px;
+  }
+
+  .thRole {
+    flex: 1;
+    min-width: 90px;
+    padding: 0 14px;
+  }
+
+  .thStatus {
+    flex: 1.3;
+    min-width: 110px;
+    padding-left: 14px;
+  }
 }

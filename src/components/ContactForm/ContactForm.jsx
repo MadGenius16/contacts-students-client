@@ -1,54 +1,81 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import css from "./ContactForm.module.css";
 import * as Yup from "yup";
+import css from "./ContactForm.module.css";
 
 const INITIAL_STATE = {
   name: "",
   phoneNumber: "",
   email: "",
   contactType: "personal",
+  isFavourite: false,
 };
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, "Too Short!")
-    .max(30, "Too Long!")
+    .min(3, "Name must be at least 3 characters")
+    .max(50, "Too Long!")
     .required("Name is required"),
   phoneNumber: Yup.string()
-    .min(8, "Must be at least 8 digits")
+    .min(3, "Phone number must be at least 3 characters")
     .max(20, "Too Long!")
     .required("Phone number is required"),
   email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
+    .email("Invalid email address"),
   contactType: Yup.string()
     .oneOf(["work", "home", "personal"])
     .required("Contact type is required"),
+  isFavourite: Yup.boolean(),
 });
 
-const ContactForm = ({ onAddContact }) => {
+const ContactForm = ({
+  onAddContact,
+  initialData = null,
+  isEdit = false,
+  onCancel,
+}) => {
   const handleSubmit = (values, actions) => {
-    onAddContact(values);
+    const payload = {
+      name: values.name.trim(),
+      phoneNumber: values.phoneNumber.trim(),
+      contactType: values.contactType || "personal",
+      isFavourite: Boolean(values.isFavourite),
+    };
+
+    // Додаємо email тільки якщо він не порожній (щоб уникнути помилки валідації порожнього рядка)
+    if (values.email && values.email.trim()) {
+      payload.email = values.email.trim();
+    }
+
+    onAddContact(payload);
     actions.resetForm();
   };
 
-  return (
-    <div>
-      <Formik
-        initialValues={INITIAL_STATE}
-        onSubmit={handleSubmit}
-        validationSchema={contactSchema}
-      >
-        <Form className={css.form}>
-          <h2 className={css.title}>Add New Contact</h2>
+  const initialValues = initialData
+    ? {
+        name: initialData.name || "",
+        phoneNumber: initialData.phoneNumber || initialData.phone || "",
+        email: initialData.email || "",
+        contactType: initialData.contactType || "personal",
+        isFavourite: Boolean(initialData.isFavourite),
+      }
+    : INITIAL_STATE;
 
+  return (
+    <Formik
+      initialValues={initialValues}
+      enableReinitialize
+      onSubmit={handleSubmit}
+      validationSchema={contactSchema}
+    >
+      <Form className={css.form}>
+        <div className={css.fieldGroup}>
           <label className={css.label}>
-            <span>Name</span>
+            <span className={css.labelText}>Full Name</span>
             <Field
               className={css.field}
               name="name"
               type="text"
-              placeholder="John Doe"
+              placeholder="Sarah Jenkins"
             />
             <ErrorMessage
               className={css.errorMessage}
@@ -56,9 +83,11 @@ const ContactForm = ({ onAddContact }) => {
               component="span"
             />
           </label>
+        </div>
 
+        <div className={css.fieldGroup}>
           <label className={css.label}>
-            <span>Phone Number</span>
+            <span className={css.labelText}>Phone Number</span>
             <Field
               className={css.field}
               name="phoneNumber"
@@ -71,14 +100,16 @@ const ContactForm = ({ onAddContact }) => {
               component="span"
             />
           </label>
+        </div>
 
+        <div className={css.fieldGroup}>
           <label className={css.label}>
-            <span>Email</span>
+            <span className={css.labelText}>Email Address</span>
             <Field
               className={css.field}
               name="email"
               type="email"
-              placeholder="john@example.com"
+              placeholder="sarah.j@example.com"
             />
             <ErrorMessage
               className={css.errorMessage}
@@ -86,10 +117,12 @@ const ContactForm = ({ onAddContact }) => {
               component="span"
             />
           </label>
+        </div>
 
+        <div className={css.fieldGroup}>
           <label className={css.label}>
-            <span>Type</span>
-            <Field as="select" className={css.field} name="contactType">
+            <span className={css.labelText}>Category / Role</span>
+            <Field as="select" className={css.selectField} name="contactType">
               <option value="personal">Personal</option>
               <option value="work">Work</option>
               <option value="home">Home</option>
@@ -100,13 +133,37 @@ const ContactForm = ({ onAddContact }) => {
               component="span"
             />
           </label>
+        </div>
 
-          <button className={css.btn} type="submit">
-            Add contact
+        <div className={css.checkboxGroup}>
+          <label className={css.checkboxLabel}>
+            <Field
+              name="isFavourite"
+              type="checkbox"
+              className={css.checkbox}
+            />
+            <span className={css.checkboxText}>
+              Add to Favourite contacts ⭐
+            </span>
+          </label>
+        </div>
+
+        <div className={css.btnRow}>
+          {onCancel && (
+            <button
+              type="button"
+              className={css.cancelBtn}
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          )}
+          <button className={css.submitBtn} type="submit">
+            {isEdit ? "Save Changes" : "Add Contact"}
           </button>
-        </Form>
-      </Formik>
-    </div>
+        </div>
+      </Form>
+    </Formik>
   );
 };
 

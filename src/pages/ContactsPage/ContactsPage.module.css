@@ -1,0 +1,309 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 48px;
+  position: relative;
+}
+
+/* 1. Верхній заголовок сторінки */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.totalBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: #e2e8f0;
+  color: #475569;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statusText {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* 2. Рядок пошуку та кнопка + Add Contact */
+.searchBarRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.btnAddContact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(42, 157, 143, 0.25);
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.btnAddContact:hover {
+  background-color: #238276;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(42, 157, 143, 0.35);
+}
+
+.btnAddContact:active {
+  transform: translateY(0);
+}
+
+.plusIcon {
+  width: 18px;
+  height: 18px;
+}
+
+/* 3. Рядок чіпів категорій та вибору Show */
+.filterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filterChips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.filterChip:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.activeChip {
+  background-color: #2a9d8f !important;
+  color: #ffffff !important;
+  border-color: #2a9d8f !important;
+  box-shadow: 0 2px 6px rgba(42, 157, 143, 0.2);
+}
+
+.activeChip:hover {
+  background-color: #238276 !important;
+  border-color: #238276 !important;
+}
+
+.favChip {
+  display: inline-flex;
+  align-items: center;
+}
+
+.chipStarIcon {
+  width: 14px;
+  height: 14px;
+  color: #f59e0b;
+}
+
+.activeChip .chipStarIcon {
+  color: #ffffff;
+  fill: #ffffff;
+}
+
+.chipClose {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+}
+
+/* Праві елементи керування: вибір кількості (Show: 10, 12, 16, 24) */
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.perPageWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perPageLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.perPageSelect {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.perPageSelect:focus {
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.15);
+}
+
+/* 4. Плаваюча капсульна пагінація (Floating Pagination) */
+.floatingPaginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  position: sticky;
+  bottom: 24px;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.floatingPagination {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 6px 10px;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.floatingBtn {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.floatingBtn:hover:not(:disabled) {
+  color: #2a9d8f;
+  background-color: #f0fdfa;
+}
+
+.floatingBtn:disabled {
+  color: #94a3b8;
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.floatingDivider {
+  width: 1px;
+  height: 18px;
+  background-color: #e2e8f0;
+  margin: 0 2px;
+}
+
+.floatingPageInfo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   АДАПТИВНІСТЬ ДЛЯ 3-Х ТИПІВ ПРИСТРОЇВ (NO GRID, PURE FLEXBOX)
+   ============================================================ */
+
+/* 📱 1. Mobile (< 768px) */
+@media screen and (max-width: 767px) {
+  .searchBarRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .btnAddContact {
+    width: 100%;
+  }
+
+  .filterRow {
+    gap: 12px;
+  }
+
+  .rightControls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* 💻 2. Tablet (768px – 1199px) */
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .pageTitle {
+    font-size: 26px;
+  }
+}

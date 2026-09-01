@@ -1,27 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts, addContact, deleteContact } from "./operations.js";
+import {
+  fetchContacts,
+  addContact,
+  updateContact,
+  deleteContact,
+} from "./operations.js";
 
 const INITIAL_STATE = {
   contacts: {
     items: [],
     loading: false,
     error: null,
+    page: 1,
+    perPage: 10,
+    totalItems: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
   },
 };
 
 const slice = createSlice({
   name: "contacts",
   initialState: INITIAL_STATE,
-  // reducers: {
-  //   addContact(state, action) {
-  //     state.contacts.push(action.payload);
-  //   },
-  //   deleteContact(state, action) {
-  //     state.contacts = state.contacts.filter(
-  //       (contact) => contact.id !== action.payload
-  //     );
-  //   },
-  // },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, (state) => {
@@ -30,7 +31,13 @@ const slice = createSlice({
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contacts.loading = false;
-        state.contacts.items = action.payload;
+        state.contacts.items = action.payload.data || [];
+        state.contacts.page = action.payload.page || 1;
+        state.contacts.perPage = action.payload.perPage || 10;
+        state.contacts.totalItems = action.payload.totalItems || 0;
+        state.contacts.totalPages = action.payload.totalPages || 1;
+        state.contacts.hasNextPage = Boolean(action.payload.hasNextPage);
+        state.contacts.hasPreviousPage = Boolean(action.payload.hasPreviousPage);
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.contacts.loading = false;
@@ -43,12 +50,29 @@ const slice = createSlice({
       .addCase(addContact.fulfilled, (state, action) => {
         state.contacts.loading = false;
         state.contacts.items.push(action.payload);
+        state.contacts.totalItems += 1;
       })
       .addCase(addContact.rejected, (state, action) => {
         state.contacts.loading = false;
         state.contacts.error = action.payload;
       })
-
+      .addCase(updateContact.pending, (state) => {
+        state.contacts.loading = true;
+        state.contacts.error = null;
+      })
+      .addCase(updateContact.fulfilled, (state, action) => {
+        state.contacts.loading = false;
+        const index = state.contacts.items.findIndex(
+          (c) => c._id === action.payload._id,
+        );
+        if (index !== -1) {
+          state.contacts.items[index] = action.payload;
+        }
+      })
+      .addCase(updateContact.rejected, (state, action) => {
+        state.contacts.loading = false;
+        state.contacts.error = action.payload;
+      })
       .addCase(deleteContact.pending, (state) => {
         state.contacts.loading = true;
         state.contacts.error = null;
@@ -58,6 +82,7 @@ const slice = createSlice({
         state.contacts.items = state.contacts.items.filter(
           (contact) => contact._id !== action.payload,
         );
+        state.contacts.totalItems = Math.max(0, state.contacts.totalItems - 1);
       })
       .addCase(deleteContact.rejected, (state, action) => {
         state.contacts.loading = false;
@@ -65,5 +90,5 @@ const slice = createSlice({
       });
   },
 });
-// export const { addContact, deleteContact } = slice.actions;
+
 export const contactsReducer = slice.reducer;
