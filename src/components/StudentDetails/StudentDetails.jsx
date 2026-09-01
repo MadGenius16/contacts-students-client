@@ -14,7 +14,7 @@ const StudentDetails = ({ student, onToggleDuty, }) => {
   };
 
   const genderText = student.gender ? student.gender.toUpperCase() : "STUDENT";
-  const avgMarkNum = Number(student.avgMark) || 0;
+  const avgMarkNum = Number(student.avgMark) || 1;
 
 
   return (
@@ -22,9 +22,9 @@ const StudentDetails = ({ student, onToggleDuty, }) => {
       {/* 1. Верхній блок 2х: Великий аватар, ім'я та статус */}
       <div className={css.heroSection}>
         <div className={css.avatar}>
-          {student.avatar ? (
+          {student.photo ? (
             <img
-              src={student.avatar}
+              src={student.photo}
               alt={student.name}
               className={css.avatarImg}
             />

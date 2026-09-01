@@ -50,9 +50,9 @@ const Student = ({
       {/* 1. Верхній рядок: Аватарка + Ім'я */}
       <div className={css.header}>
         <div className={css.avatar}>
-          {student.avatar ? (
+          {student.photo ? (
             <img
-              src={student.avatar}
+              src={student.photo}
               alt={student.name}
               className={css.avatarImg}
             />

@@ -40,7 +40,12 @@ const studentSchema = Yup.object().shape({
   onDuty: Yup.boolean(),
 });
 
-const StudentForm = ({ onAddStudent, onCancel }) => {
+const StudentForm = ({
+  onAddStudent,
+  initialData = null,
+  isEdit = false,
+  onCancel,
+}) => {
   const handleSubmit = (values, actions) => {
     const formattedValues = {
       ...values,
@@ -53,9 +58,22 @@ const StudentForm = ({ onAddStudent, onCancel }) => {
     actions.resetForm();
   };
 
+  const initialValues = initialData
+    ? {
+        name: initialData.name || "",
+        phoneNumber: initialData.phoneNumber || initialData.phone || "",
+        email: initialData.email || "",
+        age: initialData.age !== undefined ? initialData.age : "",
+        gender: initialData.gender || "male",
+        avgMark: initialData.avgMark !== undefined ? initialData.avgMark : "",
+        onDuty: Boolean(initialData.onDuty),
+      }
+    : INITIAL_STATE;
+
   return (
     <Formik
-      initialValues={INITIAL_STATE}
+      initialValues={initialValues}
+      enableReinitialize
       onSubmit={handleSubmit}
       validationSchema={studentSchema}
     >
@@ -167,7 +185,9 @@ const StudentForm = ({ onAddStudent, onCancel }) => {
         <div className={css.checkboxGroup}>
           <label className={css.checkboxLabel}>
             <Field name="onDuty" type="checkbox" className={css.checkbox} />
-            <span className={css.checkboxText}>Assign to Duty immediately</span>
+            <span className={css.checkboxText}>
+              {isEdit ? "Student is on duty" : "Assign to Duty immediately"}
+            </span>
           </label>
         </div>
 
@@ -182,7 +202,7 @@ const StudentForm = ({ onAddStudent, onCancel }) => {
             </button>
           )}
           <button className={css.submitBtn} type="submit">
-            Add Student
+            {isEdit ? "Save Changes" : "Add Student"}
           </button>
         </div>
       </Form>

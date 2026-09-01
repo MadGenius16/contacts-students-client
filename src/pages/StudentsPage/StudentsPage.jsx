@@ -46,6 +46,7 @@ const StudentsPage = () => {
   // Стейт модальних вікон
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStudentForView, setSelectedStudentForView] = useState(null);
+  const [selectedStudentForEdit, setSelectedStudentForEdit] = useState(null);
 
   // Серверний запит щоразу при зміні сторінки, ліміту на сторінку або статусу чергування
   useEffect(() => {
@@ -87,6 +88,37 @@ const StudentsPage = () => {
       })
       .catch((err) => {
         toast.error(typeof err === "string" ? err : "Failed to add student");
+      });
+  };
+
+  const onUpdateStudent = (updatedValues) => {
+    if (!selectedStudentForEdit?._id) return;
+    dispatch(
+      updateStudent({
+        studentId: selectedStudentForEdit._id,
+        updateData: updatedValues,
+      }),
+    )
+      .unwrap()
+      .then(() => {
+        toast.success("Student updated successfully! ✏️");
+        setSelectedStudentForEdit(null);
+        // Оновлюємо поточну сторінку з сервера
+        dispatch(
+          fetchStudents({
+            page: currentPage,
+            perPage: currentPerPage,
+            onDuty:
+              dutyFilter === "dutyOn"
+                ? true
+                : dutyFilter === "dutyOff"
+                  ? false
+                  : undefined,
+          }),
+        );
+      })
+      .catch((err) => {
+        toast.error(typeof err === "string" ? err : "Failed to update student");
       });
   };
 
@@ -227,7 +259,7 @@ const StudentsPage = () => {
           </div>
 
           <div className={css.rightControls}>
-            {/* Випадаючий список вибору кількості карток на сторінку (10, 12, 16, 24) */}
+            {/* Випадаючий список вибору кількості карток на сторінку (12, 16, 24) */}
             <div className={css.perPageWrapper}>
               <label htmlFor="perPageSelect" className={css.perPageLabel}>
                 Show:
@@ -238,7 +270,6 @@ const StudentsPage = () => {
                 value={currentPerPage}
                 onChange={handlePerPageChange}
               >
-         
                 <option value={12}>12</option>
                 <option value={16}>16</option>
                 <option value={24}>24</option>
@@ -253,6 +284,7 @@ const StudentsPage = () => {
           onDeleteStudent={onDeleteStudent}
           onToggleDuty={onToggleDuty}
           onViewStudent={(student) => setSelectedStudentForView(student)}
+          onEditStudent={(student) => setSelectedStudentForEdit(student)}
         />
 
         {/* 5. Плаваючий капсульний пагінатор (Floating Pagination) */}
@@ -288,7 +320,7 @@ const StudentsPage = () => {
           </div>
         )}
 
-        {/* Модальне вікно з формою додавання студента */}
+        {/* 1. Модальне вікно додавання студента */}
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -300,7 +332,7 @@ const StudentsPage = () => {
           />
         </Modal>
 
-        {/* Модальне вікно перегляду картки студента 2х */}
+        {/* 2. Модальне вікно перегляду картки студента 2х */}
         <Modal
           isOpen={Boolean(selectedStudentForView)}
           onClose={() => setSelectedStudentForView(null)}
@@ -310,6 +342,20 @@ const StudentsPage = () => {
             student={selectedStudentForView}
             onToggleDuty={onToggleDuty}
             onClose={() => setSelectedStudentForView(null)}
+          />
+        </Modal>
+
+        {/* 3. Модальне вікно редагування студента */}
+        <Modal
+          isOpen={Boolean(selectedStudentForEdit)}
+          onClose={() => setSelectedStudentForEdit(null)}
+          title="Edit Student Profile"
+        >
+          <StudentForm
+            initialData={selectedStudentForEdit}
+            isEdit={true}
+            onAddStudent={onUpdateStudent}
+            onCancel={() => setSelectedStudentForEdit(null)}
           />
         </Modal>
       </Section>
