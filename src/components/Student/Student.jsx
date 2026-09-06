@@ -1,9 +1,7 @@
+import { useEffect, useRef, useState } from "react";
 import { LuEye, LuPencil, LuTrash2 } from "react-icons/lu";
 import clsx from "clsx";
 import css from "./Student.module.css";
-import { useState } from "react";
-
-
 
 const Student = ({
   student,
@@ -11,8 +9,33 @@ const Student = ({
   onViewStudent,
   onEditStudent,
 }) => {
+  const [imgError, setImgError] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const confirmRef = useRef(null);
 
-    const [imgError, setImgError] = useState(false);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (confirmRef.current && !confirmRef.current.contains(e.target)) {
+        setShowDeleteConfirm(false);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setShowDeleteConfirm(false);
+      }
+    };
+
+    if (showDeleteConfirm) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showDeleteConfirm]);
 
   if (!student) return null;
 
@@ -22,6 +45,7 @@ const Student = ({
     if (onDeleteStudent && student._id) {
       onDeleteStudent(student._id);
     }
+    setShowDeleteConfirm(false);
   };
 
   const handleView = () => {
@@ -35,8 +59,6 @@ const Student = ({
       onEditStudent(student);
     }
   };
-
-
 
   // Форматування значень для капсульних бейджів
   const genderText = student.gender ? student.gender.toUpperCase() : "STUDENT";
@@ -56,7 +78,7 @@ const Student = ({
               src={student.photo}
               alt={student.name}
               className={css.avatarImg}
-              onError={() => setImgError(true)}  
+              onError={() => setImgError(true)}
             />
           ) : (
             <span className={css.avatarInitial}>{initial}</span>
@@ -126,15 +148,45 @@ const Student = ({
           <LuPencil className={css.actionIcon} />
         </button>
 
-        <button
-          type="button"
-          className={clsx(css.actionIconBtn, css.deleteIconBtn)}
-          onClick={handleDelete}
-          title="Delete student"
-          aria-label="Delete student"
-        >
-          <LuTrash2 className={css.actionIcon} />
-        </button>
+        {/* Кнопка видалення з поповером-підтвердженням як у contacts та reviews */}
+        <div className={css.deleteWrapper} ref={confirmRef}>
+          <button
+            type="button"
+            className={clsx(
+              css.actionIconBtn,
+              css.deleteIconBtn,
+              showDeleteConfirm && css.deleteBtnActive,
+            )}
+            onClick={() => setShowDeleteConfirm((prev) => !prev)}
+            title="Delete student"
+            aria-label="Delete student"
+          >
+            <LuTrash2 className={css.actionIcon} />
+          </button>
+
+          {showDeleteConfirm && (
+            <div className={css.popover}>
+              <p className={css.popoverTitle}>Delete?</p>
+              <div className={css.popoverActions}>
+                <button
+                  type="button"
+                  className={css.popoverCancelBtn}
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className={css.popoverDeleteBtn}
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </div>
+              <span className={css.popoverArrow} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

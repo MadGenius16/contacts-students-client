@@ -58,8 +58,8 @@ const slice = createSlice({
         state.token = action.payload.token;
         state.isRefreshing = false;
       })
-      .addCase(apiRefresh.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(apiRefresh.rejected, (state) => {
+        state.error = null;
         state.isRefreshing = false;
         state.token = null;
         state.isLoggedIn = false;

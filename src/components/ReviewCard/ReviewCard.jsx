@@ -1,10 +1,36 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuPencil, LuTrash2 } from "react-icons/lu";
 import clsx from "clsx";
 import css from "./ReviewCard.module.css";
 
 const ReviewCard = ({ review, onEdit, onDelete }) => {
   const [imgError, setImgError] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const confirmRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (confirmRef.current && !confirmRef.current.contains(e.target)) {
+        setShowDeleteConfirm(false);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setShowDeleteConfirm(false);
+      }
+    };
+
+    if (showDeleteConfirm) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showDeleteConfirm]);
 
   if (!review) return null;
 
@@ -24,6 +50,13 @@ const ReviewCard = ({ review, onEdit, onDelete }) => {
     } catch {
       return "Recently";
     }
+  };
+
+  const handleDelete = () => {
+    if (onDelete && review._id) {
+      onDelete(review._id);
+    }
+    setShowDeleteConfirm(false);
   };
 
   return (
@@ -64,7 +97,7 @@ const ReviewCard = ({ review, onEdit, onDelete }) => {
       {/* 3. Роздільник */}
       <hr className={css.divider} />
 
-      {/* 4. Футер дій (іконки як у Student.jsx) */}
+      {/* 4. Футер дій */}
       <div className={css.footerActions}>
         <button
           type="button"
@@ -76,15 +109,45 @@ const ReviewCard = ({ review, onEdit, onDelete }) => {
           <LuPencil className={css.actionIcon} />
         </button>
 
-        <button
-          type="button"
-          className={clsx(css.actionIconBtn, css.deleteIconBtn)}
-          onClick={() => onDelete && onDelete(review._id)}
-          title="Delete review"
-          aria-label="Delete review"
-        >
-          <LuTrash2 className={css.actionIcon} />
-        </button>
+        {/* Кнопка видалення з поповером-підтвердженням як у contacts */}
+        <div className={css.deleteWrapper} ref={confirmRef}>
+          <button
+            type="button"
+            className={clsx(
+              css.actionIconBtn,
+              css.deleteIconBtn,
+              showDeleteConfirm && css.deleteBtnActive,
+            )}
+            onClick={() => setShowDeleteConfirm((prev) => !prev)}
+            title="Delete review"
+            aria-label="Delete review"
+          >
+            <LuTrash2 className={css.actionIcon} />
+          </button>
+
+          {showDeleteConfirm && (
+            <div className={css.popover}>
+              <p className={css.popoverTitle}>Delete?</p>
+              <div className={css.popoverActions}>
+                <button
+                  type="button"
+                  className={css.popoverCancelBtn}
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className={css.popoverDeleteBtn}
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </div>
+              <span className={css.popoverArrow} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

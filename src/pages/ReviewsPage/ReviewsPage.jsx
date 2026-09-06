@@ -44,7 +44,6 @@ const ReviewsPage = () => {
   // Стейт модальних вікон
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedReviewForEdit, setSelectedReviewForEdit] = useState(null);
-  const [reviewToDeleteId, setReviewToDeleteId] = useState(null);
 
   // Завантаження відгуків з сервера при зміні сторінки або ліміту
   useEffect(() => {
@@ -104,15 +103,14 @@ const ReviewsPage = () => {
       });
   };
 
-  // Видалення відгуку
-  const handleConfirmDelete = () => {
-    if (!reviewToDeleteId) return;
+  // Видалення відгуку (підтвердження в інлайн-поповері картки)
+  const handleDeleteReview = (reviewId) => {
+    if (!reviewId) return;
 
-    dispatch(deleteReview(reviewToDeleteId))
+    dispatch(deleteReview(reviewId))
       .unwrap()
       .then(() => {
         toast.success("Review deleted 🗑️");
-        setReviewToDeleteId(null);
         if (reviews.length === 1 && currentPage > 1) {
           setCurrentPage((prev) => prev - 1);
         } else {
@@ -190,7 +188,7 @@ const ReviewsPage = () => {
             currentUser={currentUser}
             isLoading={isLoading}
             onEditReview={(review) => setSelectedReviewForEdit(review)}
-            onDeleteReview={(id) => setReviewToDeleteId(id)}
+            onDeleteReview={handleDeleteReview}
           />
         </div>
 
@@ -251,36 +249,6 @@ const ReviewsPage = () => {
             onSubmitReview={handleUpdateReview}
             onCancel={() => setSelectedReviewForEdit(null)}
           />
-        </Modal>
-
-        {/* 3. Модалка підтвердження видалення */}
-        <Modal
-          isOpen={Boolean(reviewToDeleteId)}
-          onClose={() => setReviewToDeleteId(null)}
-          title="Delete Review"
-        >
-          <div className={css.deleteConfirmContent}>
-            <p className={css.deleteConfirmText}>
-              Are you sure you want to delete this review? This action cannot be
-              undone.
-            </p>
-            <div className={css.deleteModalBtnRow}>
-              <button
-                type="button"
-                className={css.cancelModalBtn}
-                onClick={() => setReviewToDeleteId(null)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className={css.confirmDeleteBtn}
-                onClick={handleConfirmDelete}
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
         </Modal>
       </Section>
     </div>
