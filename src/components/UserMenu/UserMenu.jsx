@@ -12,24 +12,27 @@ const UserMenu = () => {
     dispatch(apiLogout());
   };
 
-  const initial = user?.name ? user.name[0].toUpperCase() : "U";
+  const displayName =
+    user?.name ||
+    (user?.email ? user.email.split("@")[0] : "Teacher");
+  const initial = displayName ? displayName[0].toUpperCase() : "T";
 
   return (
     <div className={css.userCard}>
       <div className={css.userInfo}>
         <div className={css.avatar}>
           {user?.avatar ? (
-            <img src={user.avatar} alt={user.name} className={css.avatarImg} />
+            <img src={user.avatar} alt={displayName} className={css.avatarImg} />
           ) : (
             <span className={css.avatarInitial}>{initial}</span>
           )}
         </div>
 
         <div className={css.userDetails}>
-          <span className={css.userName} title={user?.name || "User"}>
-            {user?.name || "User"}
+          <span className={css.userName} title={displayName}>
+            {displayName}
           </span>
-          <span className={css.userRole}>Admin</span>
+          <span className={css.userRole}>{user?.role || "Teacher"}</span>
         </div>
       </div>
 

@@ -14,13 +14,13 @@ const Navigation = () => {
   return (
     <ul className={css.list}>
       <li>
-        <NavLink to="/" end className={buildLinkClass}>
-              <div className={css.iconWrapper}>
-                <LuLayoutDashboard className={css.icon} />
-              </div>
-              <div className={css.textWrapper}>
-                <span className={css.title}>Dashboard</span>
-              </div>
+        <NavLink to="/" className={buildLinkClass} end>
+          <div className={css.iconWrapper}>
+            <LuLayoutDashboard className={css.icon} />
+          </div>
+          <div className={css.textWrapper}>
+            <span className={css.title}>Dashboard</span>
+          </div>
         </NavLink>
       </li>
 
@@ -28,38 +28,38 @@ const Navigation = () => {
         <>
           <li>
             <NavLink to="/students" className={buildLinkClass}>
-                  <div className={css.iconWrapper}>
-                    <LuUsers className={css.icon} />
-                  </div>
-                  <div className={css.textWrapper}>
-                    <span className={css.title}>Students</span>
-                  </div>
+              <div className={css.iconWrapper}>
+                <LuUsers className={css.icon} />
+              </div>
+              <div className={css.textWrapper}>
+                <span className={css.title}>Students</span>
+              </div>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/contacts" className={buildLinkClass}>
-                  <div className={css.iconWrapper}>
-                    <LuContact className={css.icon} />
-                  </div>
-                  <div className={css.textWrapper}>
-                    <span className={css.title}>Contacts</span>
-                  </div>
+              <div className={css.iconWrapper}>
+                <LuContact className={css.icon} />
+              </div>
+              <div className={css.textWrapper}>
+                <span className={css.title}>Contacts</span>
+              </div>
             </NavLink>
           </li>
-        </>
-      )}
 
-      <li>
-        <NavLink to="/reviews" className={buildLinkClass}>
+          <li>
+            <NavLink to="/reviews" className={buildLinkClass}>
               <div className={css.iconWrapper}>
                 <LuStar className={css.icon} />
               </div>
               <div className={css.textWrapper}>
                 <span className={css.title}>Reviews</span>
               </div>
-        </NavLink>
-      </li>
+            </NavLink>
+          </li>
+        </>
+      )}
     </ul>
   );
 };

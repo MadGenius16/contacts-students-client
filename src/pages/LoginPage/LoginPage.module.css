@@ -1,0 +1,9 @@
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 140px);
+  width: 100%;
+  padding: 20px 0 40px 0;
+  box-sizing: border-box;
+}

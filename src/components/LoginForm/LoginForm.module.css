@@ -1,70 +1,222 @@
+/* Головна картка форми */
+.formCard {
+  width: 100%;
+  max-width: 440px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 40px 36px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. Верхній блок заголовка */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background-color: #e6f4f1;
+  color: #2a9d8f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(42, 157, 143, 0.15);
+}
+
+.headerIcon {
+  width: 28px;
+  height: 28px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 2. Повідомлення про серверні помилки */
+.serverErrorBadge {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 3. Форма та поля введення */
 .form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border: 3px solid rgba(7, 4, 4, 0.308);
-  background-color: transparent;
-  backdrop-filter: blur(20px);
-  padding: 15px 15px;
-  border-radius: 10px;
-  max-width: 100%;
-  margin-bottom: 18px;
-  height: 330px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  color: #232222;
+  width: 100%;
 }
-.title {
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 8px;
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
 }
 
 .label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.fieldWrapper {
+  position: relative;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  font-size: 18px;
+  pointer-events: none;
+  transition: color 0.2s ease;
 }
 
 .field {
-  border: 1px solid #ffffff5a;
-  /* opacity: 0.2; */
+  width: 100%;
+  padding: 12px 42px 12px 42px;
+  font-size: 14.5px;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
   border-radius: 12px;
-  padding: 10px 10px;
-  font-size: 18px;
-  background-color: transparent;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-    1px 4px 6px rgba(0, 0, 0, 0.16);
-  color: #232222;
-}
-.field::placeholder {
-  color: #232222;
-  opacity: 0.5;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+.field::placeholder {
+  color: #94a3b8;
+  opacity: 0.8;
+}
+
+.field:focus {
+  background-color: #ffffff;
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.12);
+}
+
+.field:focus + .inputIcon,
+.fieldWrapper:focus-within .inputIcon {
+  color: #2a9d8f;
+}
+
+.togglePasswordBtn {
+  position: absolute;
+  right: 12px;
+  background: none;
   border: none;
-  background-color: transparent;
-  border: 2px solid rgba(7, 4, 4, 0.308);
-  border-radius: 12px;
-  background-color: #ffffff7c;
-  color: black;
-  margin-top: auto;
-  padding: 10px 35px;
-  font-weight: 500;
-  font-size: 16px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-    1px 4px 6px rgba(0, 0, 0, 0.16);
-  transition: background-color 200ms linear;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  font-size: 18px;
+  transition: color 0.2s ease;
 }
-.btn:hover,
-.btn:focus {
-  background-color: #fff;
+
+.togglePasswordBtn:hover {
+  color: #0f172a;
 }
+
 .errorMessage {
-  margin-top: 4px;
-  color: red;
-  font-size: 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #ef4444;
+  margin-top: 2px;
+}
+
+/* 4. Кнопка відправки */
+.submitBtn {
+  width: 100%;
+  padding: 13px;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  box-shadow: 0 4px 14px rgba(42, 157, 143, 0.28);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: #238276;
+  box-shadow: 0 6px 18px rgba(42, 157, 143, 0.38);
+  transform: translateY(-1px);
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* 5. Нижній блок посилання */
+.footer {
+  margin-top: 26px;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.footerText {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.footerLink {
+  color: #2a9d8f;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footerLink:hover {
+  color: #238276;
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .formCard {
+    padding: 30px 20px;
+    border-radius: 18px;
+  }
 }

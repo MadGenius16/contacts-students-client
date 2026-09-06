@@ -55,13 +55,15 @@ const slice = createSlice({
       })
       .addCase(apiRefresh.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        // state.token = action.payload.token;
-        state.user = action.payload;
+        state.token = action.payload.token;
         state.isRefreshing = false;
       })
       .addCase(apiRefresh.rejected, (state, action) => {
         state.error = action.payload;
         state.isRefreshing = false;
+        state.token = null;
+        state.isLoggedIn = false;
+        state.user = { name: null, email: null };
       })
       .addCase(apiLogout.pending, (state) => {
         state.error = null;

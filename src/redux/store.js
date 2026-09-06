@@ -19,7 +19,7 @@ import { reviewsReducer } from "./reviews/slice";
 const authConfig = {
   key: "auth",
   storage,
-  whitelist: ["token"],
+  whitelist: ["token", "user"],
 };
 
 export const store = configureStore({

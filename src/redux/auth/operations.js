@@ -71,7 +71,11 @@ export const apiLogin = createAsyncThunk(
         token,
         user: {
           email: formData.email,
-          name: formData.email.split("@")[0],
+          name:
+            data.data?.user?.name ||
+            data.data?.name ||
+            formData.name ||
+            formData.email.split("@")[0],
         },
       };
     } catch (error) {
@@ -89,21 +93,21 @@ export const apiLogin = createAsyncThunk(
 export const apiRefresh = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+
     try {
-      const state = thunkAPI.getState();
-      const token = state.auth.token;
-
-      if (token) {
-        setAuthHeader(token);
-      }
-
+      setAuthHeader(token);
       const { data } = await instance.post("/auth/refresh");
       const newToken = data.data.accessToken;
       setAuthHeader(newToken);
 
       return {
         token: newToken,
-        user: state.auth.user,
       };
     } catch (error) {
       clearAuthHeader();
