@@ -34,18 +34,16 @@ const HomePage = () => {
   const contactsCount = useSelector(selectContactsCount) || 0;
   const reviewsCount = useSelector(selectReviewsTotalItems) || 0;
 
-  // Підвантажуємо актуальні лічильники при відкритті головної сторінки
+  // Підвантажуємо актуальні лічильники при відкритті головної сторінки для авторизованого користувача
   useEffect(() => {
-    dispatch(fetchReviews({ page: 1, perPage: 1 })).catch(() => {});
     if (isLoggedIn) {
-      dispatch(fetchStudents({ page: 1, perPage: 1 })).catch(() => {});
-      dispatch(fetchContacts({ page: 1, perPage: 1 })).catch(() => {});
+      dispatch(fetchReviews({ page: 1, perPage: 1 }));
+      dispatch(fetchStudents({ page: 1, perPage: 1 }));
+      dispatch(fetchContacts({ page: 1, perPage: 1 }));
     }
   }, [dispatch, isLoggedIn]);
 
-  const userName =
-    user?.name ||
-    (user?.email ? user.email.split("@")[0] : isLoggedIn ? "Teacher" : "there");
+  const userName = user?.name || user?.email?.split("@")[0] || "User";
 
   return (
     <div className={css.pageWrapper}>
