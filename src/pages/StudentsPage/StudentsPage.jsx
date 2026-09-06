@@ -48,23 +48,26 @@ const StudentsPage = () => {
   const [selectedStudentForView, setSelectedStudentForView] = useState(null);
   const [selectedStudentForEdit, setSelectedStudentForEdit] = useState(null);
 
+  // Конвертуємо стейт фільтра у булеве значення для сервера
+  const onDutyParam =
+    dutyFilter === "dutyOn"
+      ? true
+      : dutyFilter === "dutyOff"
+        ? false
+        : undefined;
+
   // Серверний запит щоразу при зміні сторінки, ліміту на сторінку або статусу чергування
   useEffect(() => {
     dispatch(
       fetchStudents({
         page: currentPage,
         perPage: currentPerPage,
-        onDuty:
-          dutyFilter === "dutyOn"
-            ? true
-            : dutyFilter === "dutyOff"
-              ? false
-              : undefined,
+        onDuty: onDutyParam,
       }),
     )
       .unwrap()
       .catch(() => {});
-  }, [dispatch, currentPage, currentPerPage, dutyFilter]);
+  }, [dispatch, currentPage, currentPerPage, onDutyParam]);
 
   const onAddStudent = (studentObject) => {
     dispatch(addStudents(studentObject))
@@ -77,12 +80,7 @@ const StudentsPage = () => {
           fetchStudents({
             page: currentPage,
             perPage: currentPerPage,
-            onDuty:
-              dutyFilter === "dutyOn"
-                ? true
-                : dutyFilter === "dutyOff"
-                  ? false
-                  : undefined,
+            onDuty: onDutyParam,
           }),
         );
       })
@@ -108,12 +106,7 @@ const StudentsPage = () => {
           fetchStudents({
             page: currentPage,
             perPage: currentPerPage,
-            onDuty:
-              dutyFilter === "dutyOn"
-                ? true
-                : dutyFilter === "dutyOff"
-                  ? false
-                  : undefined,
+            onDuty: onDutyParam,
           }),
         );
       })
@@ -135,12 +128,7 @@ const StudentsPage = () => {
             fetchStudents({
               page: currentPage,
               perPage: currentPerPage,
-              onDuty:
-                dutyFilter === "dutyOn"
-                  ? true
-                  : dutyFilter === "dutyOff"
-                    ? false
-                    : undefined,
+              onDuty: onDutyParam,
             }),
           );
         }

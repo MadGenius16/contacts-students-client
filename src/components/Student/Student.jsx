@@ -1,6 +1,9 @@
 import { LuEye, LuPencil, LuTrash2 } from "react-icons/lu";
 import clsx from "clsx";
 import css from "./Student.module.css";
+import { useState } from "react";
+
+
 
 const Student = ({
   student,
@@ -8,6 +11,9 @@ const Student = ({
   onViewStudent,
   onEditStudent,
 }) => {
+
+    const [imgError, setImgError] = useState(false);
+
   if (!student) return null;
 
   const initial = student.name ? student.name.charAt(0).toUpperCase() : "S";
@@ -30,6 +36,8 @@ const Student = ({
     }
   };
 
+
+
   // Форматування значень для капсульних бейджів
   const genderText = student.gender ? student.gender.toUpperCase() : "STUDENT";
   const ageText = student.age ? `${student.age} YRS` : "— YRS";
@@ -43,11 +51,12 @@ const Student = ({
       {/* 1. Верхній рядок: Аватарка + Ім'я */}
       <div className={css.header}>
         <div className={css.avatar}>
-          {student.photo ? (
+          {student.photo && !imgError ? (
             <img
               src={student.photo}
               alt={student.name}
               className={css.avatarImg}
+              onError={() => setImgError(true)}  
             />
           ) : (
             <span className={css.avatarInitial}>{initial}</span>

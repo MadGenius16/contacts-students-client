@@ -41,7 +41,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0ea5e9 0%, #2a9d8f 100%);
+  background: linear-gradient(135deg, #4bd9c9 10%, #2a9d8f 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,6 +125,7 @@
 /* 3. Колонка: Role (Вертикальний роздільник зліва) */
 .colRole {
   display: flex;
+  justify-content: center;
   align-items: center;
   flex: 1.2;
   min-width: 110px;
@@ -147,18 +148,19 @@
 
 /* Кольори бейджів точно як на скріншоті */
 .roleWork {
-  background-color: #357a79;
+  background-color: #34b5a6;
   color: #ffffff;
 }
 
 .rolePersonal {
-  background-color: #d97706;
+  background-color: #34b5a6;
   color: #ffffff;
 }
 
 .roleHome {
-  background-color: #4f46e5;
+  background-color:34b5a6;
   color: #ffffff;
+
 }
 
 /* 4. Колонка: Status (Вертикальний роздільник зліва, Star, Pencil, Trash) */

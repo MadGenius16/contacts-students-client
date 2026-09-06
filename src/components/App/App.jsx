@@ -10,6 +10,9 @@ import Layout from "../Layout/Layout.jsx";
 import { RestrictedRoute } from "../RestrictedRoute/RestrictedRoute.jsx";
 import { PrivateRoute } from "../PrivateRoute/PrivateRoute.jsx";
 import css from "./App.module.css";
+const ReviewsPage = lazy(
+  () => import("../../pages/ReviewsPage/ReviewsPage.jsx"),
+);
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage.jsx"));
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage.jsx"));
 const RegistrationPage = lazy(
@@ -59,6 +62,10 @@ const App = () => {
           <Route
             path="/students"
             element={<PrivateRoute component={<StudentsPage />} />}
+          />
+          <Route
+            path="/reviews"
+            element={<PrivateRoute component={<ReviewsPage />} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

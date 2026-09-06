@@ -1,8 +1,11 @@
 import { LuMail, LuPhone, LuUser, LuGraduationCap, LuCalendar, LuShieldCheck, LuShieldAlert } from "react-icons/lu";
 import clsx from "clsx";
 import css from "./StudentDetails.module.css";
+import { useState } from "react";
 
 const StudentDetails = ({ student, onToggleDuty, }) => {
+   const [imgError, setImgError] = useState(false);
+  
   if (!student) return null;
 
   const initial = student.name ? student.name.charAt(0).toUpperCase() : "S";
@@ -22,11 +25,12 @@ const StudentDetails = ({ student, onToggleDuty, }) => {
       {/* 1. Верхній блок 2х: Великий аватар, ім'я та статус */}
       <div className={css.heroSection}>
         <div className={css.avatar}>
-          {student.photo ? (
+          {student.photo && !imgError ? (
             <img
               src={student.photo}
               alt={student.name}
               className={css.avatarImg}
+              onError={() => setImgError(true)}
             />
           ) : (
             <span className={css.avatarInitial}>{initial}</span>

@@ -53,7 +53,7 @@ const ContactForm = ({
   const initialValues = initialData
     ? {
         name: initialData.name || "",
-        phoneNumber: initialData.phoneNumber || initialData.phone || "",
+        phoneNumber: initialData.phoneNumber || "",
         email: initialData.email || "",
         contactType: initialData.contactType || "personal",
         isFavourite: Boolean(initialData.isFavourite),

@@ -1,0 +1,699 @@
+{
+	"info": {
+		"_postman_id": "8f3b248a-a921-4648-9321-12c8fe95a701",
+		"name": "SERVER - RENDER (with Reviews)",
+		"description": "Full collection for Contacts, Students, Auth, and Reviews APIs on Render and Localhost.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "auth register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Alex Parent\",\n  \"email\": \"alex.test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data.accessToken) {",
+									"    pm.collectionVariables.set(\"token\", res.data.accessToken);",
+									"    console.log(\"Token automatically saved:\", res.data.accessToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"parent@i.ua\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth request-reset-email",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"parent@i.ua\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/send-reset-email",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"send-reset-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth reset password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"<TOKEN_FROM_EMAIL>\",\n  \"password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-pwd",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"reset-pwd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "students",
+			"item": [
+				{
+					"name": "Get students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/students?page=1&perPage=12&sortBy=createdAt&sortOrder=desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "12"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "onDuty",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get studentById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/students/{{studentId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post students",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Maria Kovalenko\",\n  \"age\": 15,\n  \"gender\": \"female\",\n  \"avgMark\": 11.2,\n  \"onDuty\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/students",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update students",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Maria Kovalenko\",\n  \"age\": 16,\n  \"gender\": \"female\",\n  \"avgMark\": 11.8,\n  \"onDuty\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/students/{{studentId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch students",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"avgMark\": 12.0,\n  \"onDuty\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/students/{{studentId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete students",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/students/{{studentId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "contacts",
+			"item": [
+				{
+					"name": "Get all contacts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contacts?page=1&perPage=10&sortBy=createdAt&sortOrder=desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								},
+								{
+									"key": "isFavourite",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "contactType",
+									"value": "work",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get contactsById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contacts/{{contactId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create contact",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Oksana Bondar",
+									"type": "text"
+								},
+								{
+									"key": "phoneNumber",
+									"value": "+380501234567",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "oksana@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "isFavourite",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "contactType",
+									"value": "work",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/contacts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update contact",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Oksana Bondar Updated\",\n  \"phoneNumber\": \"+380501234567\",\n  \"email\": \"oksana.new@gmail.com\",\n  \"isFavourite\": true,\n  \"contactType\": \"personal\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/contacts/{{contactId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch contact",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "isFavourite",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/contacts/{{contactId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete contact",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contacts/{{contactId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reviews",
+			"item": [
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reviews?page=1&perPage=12&sortBy=createdAt&sortOrder=desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "12"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "comment",
+									"value": "Чудова платформа! Дуже зручно працювати з базою студентів та контактів.",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/reviews",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch review",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\": \"Оновлений текст відгуку: все працює швидко та стабільно!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reviews/{{reviewId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reviews/{{reviewId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://contacts-students-api.onrender.com",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "studentId",
+			"value": "65ca67e7ae7f10c88b598377",
+			"type": "string"
+		},
+		{
+			"key": "contactId",
+			"value": "69db7238fdc5a4c118140e4d",
+			"type": "string"
+		},
+		{
+			"key": "reviewId",
+			"value": "6a9ad20c20491cd5673dad91",
+			"type": "string"
+		}
+	]
+}

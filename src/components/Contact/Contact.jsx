@@ -15,6 +15,8 @@ const Contact = ({
   onEditContact,
   onToggleFavourite,
 }) => {
+
+  const [imgError, setImgError] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const confirmRef = useRef(null);
 
@@ -71,8 +73,12 @@ const Contact = ({
       {/* 1. Колонка: Photo & Name */}
       <div className={css.colPhotoName}>
         <div className={css.avatar}>
-          {contact.photo ? (
-            <img src={contact.photo} alt={contact.name} className={css.avatarImg} />
+          {contact.photo && !imgError ? (
+            <img src={contact.photo}
+             alt={contact.name}
+              className={css.avatarImg}
+              onError={() => setImgError(true)}  
+              />
           ) : (
             <span className={css.avatarInitial}>{initial}</span>
           )}
@@ -163,7 +169,7 @@ const Contact = ({
 
           {showDeleteConfirm && (
             <div className={css.popover}>
-              <p className={css.popoverTitle}>Видалити?</p>
+              <p className={css.popoverTitle}>Delete?</p>
               <div className={css.popoverActions}>
                 <button
                   type="button"

@@ -1,0 +1,167 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+  position: relative;
+  min-height: 200px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  border-color: #cbd5e1;
+}
+
+/* 1. Хедер картки: Аватар + Інфо */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.avatarGlow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2a9d8f 0%, #4fada2 100%);
+  opacity: 0.3;
+  filter: blur(4px);
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .avatarGlow {
+  opacity: 0.6;
+  filter: blur(5px);
+}
+
+.avatar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a8888 0%, #4fada2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(42, 157, 143, 0.25);
+  box-sizing: border-box;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitial {
+  line-height: 1;
+}
+
+/* Інформація про автора */
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.authorName {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* 2. Текст відгуку */
+.commentBody {
+  flex-grow: 1;
+  padding: 4px 0;
+}
+
+.commentText {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #334155;
+  font-style: normal;
+  word-break: break-word;
+}
+
+/* 3. Роздільник */
+.divider {
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  margin: 12px 0 6px 0;
+  width: 100%;
+}
+
+/* 4. Футер дій (іконки як у Student.module.css) */
+.footerActions {
+  display: flex;
+  justify-content:flex-end;
+  align-items: center;
+  padding-top: 4px;
+  gap: 10px;
+}
+
+.actionIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.actionIconBtn:hover {
+  color: #0f172a;
+  transform: scale(1.15);
+}
+
+.deleteIconBtn:hover {
+  color: #ef4444;
+}
+
+.actionIcon {
+  width: 19px;
+  height: 19px;
+}
