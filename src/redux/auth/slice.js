@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { apiLogin, apiLogout, apiRefresh, apiRegister } from "./operations";
+import {
+  apiLogin,
+  apiLogout,
+  apiRefresh,
+  apiRegister,
+  apiRequestResetEmail,
+  apiResetPassword,
+} from "./operations";
 
 const INITIAL_STATE = {
   user: {
@@ -72,6 +79,26 @@ const slice = createSlice({
         return INITIAL_STATE;
       })
       .addCase(apiLogout.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+
+      .addCase(apiRequestResetEmail.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(apiRequestResetEmail.fulfilled, (state) => {
+        state.error = null;
+      })
+      .addCase(apiRequestResetEmail.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+
+      .addCase(apiResetPassword.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(apiResetPassword.fulfilled, (state) => {
+        state.error = null;
+      })
+      .addCase(apiResetPassword.rejected, (state, action) => {
         state.error = action.payload;
       });
   },

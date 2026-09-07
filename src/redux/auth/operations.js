@@ -140,3 +140,38 @@ export const apiLogout = createAsyncThunk(
     }
   },
 );
+
+export const apiRequestResetEmail = createAsyncThunk(
+  "auth/request-reset-email",
+  async ({ email }, thunkAPI) => {
+    try {
+      const { data } = await instance.post("/auth/request-reset-email", {
+        email,
+      });
+      return data;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || error.message || "Reset email failed";
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+export const apiResetPassword = createAsyncThunk(
+  "auth/reset-password",
+  async ({ token, password }, thunkAPI) => {
+    try {
+      const { data } = await instance.post("/auth/reset-password", {
+        token,
+        password,
+      });
+      return data;
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Reset password failed";
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
