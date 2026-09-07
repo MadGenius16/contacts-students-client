@@ -24,6 +24,7 @@ import StudentList from "../../components/StudentList/StudentList.jsx";
 import StudentForm from "../../components/StudentForm/StudentForm.jsx";
 import StudentDetails from "../../components/StudentDetails/StudentDetails.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
+import Loader from "../../components/Loader/Loader.jsx";
 import css from "./StudentsPage.module.css";
 
 const StudentsPage = () => {
@@ -181,7 +182,6 @@ const StudentsPage = () => {
             <h1 className={css.pageTitle}>Students</h1>
             <span className={css.totalBadge}>{totalItems} Total</span>
           </div>
-          {isLoading && <p className={css.statusText}>Loading...</p>}
           {error && <p className={css.errorText}>Error: {error}</p>}
         </div>
 
@@ -267,13 +267,17 @@ const StudentsPage = () => {
         </div>
 
         {/* 4. Список карток студентів з поточної сторінки сервера */}
-        <StudentList
-          students={students}
-          onDeleteStudent={onDeleteStudent}
-          onToggleDuty={onToggleDuty}
-          onViewStudent={(student) => setSelectedStudentForView(student)}
-          onEditStudent={(student) => setSelectedStudentForEdit(student)}
-        />
+        {isLoading && (!students || students.length === 0) ? (
+          <Loader text="Loading students..." />
+        ) : (
+          <StudentList
+            students={students}
+            onDeleteStudent={onDeleteStudent}
+            onToggleDuty={onToggleDuty}
+            onViewStudent={(student) => setSelectedStudentForView(student)}
+            onEditStudent={(student) => setSelectedStudentForEdit(student)}
+          />
+        )}
 
         {/* 5. Плаваючий капсульний пагінатор (Floating Pagination) */}
         {totalItems > 0 && (

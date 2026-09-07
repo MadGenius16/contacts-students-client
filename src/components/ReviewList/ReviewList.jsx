@@ -1,4 +1,5 @@
 import ReviewCard from "../ReviewCard/ReviewCard";
+import Loader from "../Loader/Loader";
 import css from "./ReviewList.module.css";
 
 const ReviewList = ({
@@ -9,12 +10,7 @@ const ReviewList = ({
   isLoading = false,
 }) => {
   if (isLoading && (!reviews || reviews.length === 0)) {
-    return (
-      <div className={css.loaderWrapper}>
-        <div className={css.spinner}></div>
-        <p className={css.loaderText}>Loading reviews...</p>
-      </div>
-    );
+    return <Loader text="Loading reviews..." />;
   }
 
   if (!Array.isArray(reviews) || reviews.length === 0) {

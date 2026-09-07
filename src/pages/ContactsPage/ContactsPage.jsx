@@ -8,6 +8,7 @@ import ContactList from "../../components/ContactList/ContactList.jsx";
 import SearchBox from "../../components/SearchBox/SearchBox.jsx";
 import ContactForm from "../../components/ContactForm/ContactForm.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
+import Loader from "../../components/Loader/Loader.jsx";
 import {
   fetchContacts,
   addContact,
@@ -193,7 +194,6 @@ const ContactsPage = () => {
             <h1 className={css.pageTitle}>Contacts</h1>
             <span className={css.totalBadge}>{totalItems} Total</span>
           </div>
-          {isLoading && <p className={css.statusText}>Loading...</p>}
           {error && <p className={css.errorText}>Error: {error}</p>}
         </div>
 
@@ -302,12 +302,16 @@ const ContactsPage = () => {
         </div>
 
         {/* 4. Табличний список контактів поточної серверної сторінки */}
-        <ContactList
-          contacts={contacts}
-          onDeleteContact={onDeleteContact}
-          onEditContact={(contact) => setSelectedContactForEdit(contact)}
-          onToggleFavourite={onToggleFavourite}
-        />
+        {isLoading && (!contacts || contacts.length === 0) ? (
+          <Loader text="Loading contacts..." />
+        ) : (
+          <ContactList
+            contacts={contacts}
+            onDeleteContact={onDeleteContact}
+            onEditContact={(contact) => setSelectedContactForEdit(contact)}
+            onToggleFavourite={onToggleFavourite}
+          />
+        )}
 
         {/* 5. Плаваючий капсульний пагінатор (Prev / Next) */}
         {totalItems > 0 && (
