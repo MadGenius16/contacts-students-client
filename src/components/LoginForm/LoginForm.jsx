@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LuMail, LuLock, LuEye, LuEyeOff, LuLogIn } from "react-icons/lu";
 import { apiLogin } from "../../redux/auth/operations";
 import { selectAuthError } from "../../redux/auth/selectors";
+import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal.jsx";
 import css from "./LoginForm.module.css";
 
 const INITIAL_STATE = { email: "", password: "" };
@@ -24,6 +25,7 @@ const LoginForm = () => {
   const error = useSelector(selectAuthError);
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
 
   const handleSubmit = (values, actions) => {
     dispatch(apiLogin(values));
@@ -82,9 +84,19 @@ const LoginForm = () => {
 
             {/* Поле Password */}
             <div className={css.inputGroup}>
-              <label htmlFor="login-password" className={css.label}>
-                Password
-              </label>
+              <div className={css.labelRow}>
+                <label htmlFor="login-password" className={css.label}>
+                  Password
+                </label>
+                <button
+                  type="button"
+                  className={css.forgotBtn}
+                  onClick={() => setIsForgotModalOpen(true)}
+                >
+                  Forgot password?
+                </button>
+              </div>
+              
               <div className={css.fieldWrapper}>
                 <LuLock className={css.inputIcon} />
                 <Field
@@ -132,8 +144,15 @@ const LoginForm = () => {
           </Link>
         </p>
       </div>
+
+      {/* 5. Модальне вікно відновлення пароля */}
+      <ForgotPasswordModal
+        isOpen={isForgotModalOpen}
+        onClose={() => setIsForgotModalOpen(false)}
+      />
     </div>
   );
 };
 
 export default LoginForm;
+

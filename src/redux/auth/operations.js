@@ -141,6 +141,10 @@ export const apiLogout = createAsyncThunk(
   },
 );
 
+/*
+ * POST @ /auth/request-reset-email
+ * body: { email }
+ */
 export const apiRequestResetEmail = createAsyncThunk(
   "auth/request-reset-email",
   async ({ email }, thunkAPI) => {

@@ -24,6 +24,9 @@ const StudentsPage = lazy(
 const NotFound = lazy(
   () => import("../../pages/NotFoundPage/NotFoundPage.jsx"),
 );
+const ResetPasswordPage = lazy(
+  () => import("../../pages/ResetPasswordPage/ResetPasswordPage.jsx"),
+);
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectAuthIsRefreshing);
@@ -49,6 +52,10 @@ const App = () => {
           <Route
             path="/login"
             element={<RestrictedRoute component={<LoginPage />} />}
+          />
+          <Route
+            path="/reset-password"
+            element={<RestrictedRoute component={<ResetPasswordPage />} />}
           />
           <Route
             path="/contacts"
