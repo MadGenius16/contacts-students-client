@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 220px;
-  min-width: 220px;
+  width: 240px;
+  min-width: 240px;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -12,13 +12,20 @@
   padding: 24px 16px;
   box-sizing: border-box;
   z-index: 100;
-  transition: all 0.25s ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .topSection {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .brand {
@@ -62,6 +69,30 @@
   letter-spacing: -0.3px;
 }
 
+.closeBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 22px;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.closeIcon {
+  width: 22px;
+  height: 22px;
+}
+
 .navSection {
   width: 100%;
 }
@@ -70,4 +101,27 @@
   margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid #f1f5f9;
+}
+
+/* 📱 Mobile Drawer Styles (< 768px) */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .closeBtn {
+    display: flex;
+  }
 }

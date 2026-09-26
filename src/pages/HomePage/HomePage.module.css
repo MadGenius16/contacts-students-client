@@ -61,9 +61,23 @@
 }
 
 @media (max-width: 640px) {
+  .mainTitle {
+    font-size: 24px;
+  }
+
+  .welcomeText {
+    font-size: 14px;
+  }
+
+  .cardsGrid {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
   .cardCol,
   .cardColTwo {
     flex: 1 1 100%;
+    min-width: 0;
   }
 }
 

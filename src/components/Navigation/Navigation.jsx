@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { selectAuthIsLoggedIn } from "../../redux/auth/selectors.js";
 import css from "./Navigation.module.css";
 
-const Navigation = () => {
+const Navigation = ({ onItemClick }) => {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
   const buildLinkClass = ({ isActive }) => {
@@ -14,7 +14,7 @@ const Navigation = () => {
   return (
     <ul className={css.list}>
       <li>
-        <NavLink to="/" className={buildLinkClass} end>
+        <NavLink to="/" className={buildLinkClass} onClick={onItemClick} end>
           <div className={css.iconWrapper}>
             <LuLayoutDashboard className={css.icon} />
           </div>
@@ -27,7 +27,11 @@ const Navigation = () => {
       {isLoggedIn && (
         <>
           <li>
-            <NavLink to="/students" className={buildLinkClass}>
+            <NavLink
+              to="/students"
+              className={buildLinkClass}
+              onClick={onItemClick}
+            >
               <div className={css.iconWrapper}>
                 <LuUsers className={css.icon} />
               </div>
@@ -38,7 +42,11 @@ const Navigation = () => {
           </li>
 
           <li>
-            <NavLink to="/contacts" className={buildLinkClass}>
+            <NavLink
+              to="/contacts"
+              className={buildLinkClass}
+              onClick={onItemClick}
+            >
               <div className={css.iconWrapper}>
                 <LuContact className={css.icon} />
               </div>
@@ -49,7 +57,11 @@ const Navigation = () => {
           </li>
 
           <li>
-            <NavLink to="/reviews" className={buildLinkClass}>
+            <NavLink
+              to="/reviews"
+              className={buildLinkClass}
+              onClick={onItemClick}
+            >
               <div className={css.iconWrapper}>
                 <LuStar className={css.icon} />
               </div>

@@ -3,11 +3,12 @@ import { LuLogIn, LuUserPlus } from "react-icons/lu";
 import clsx from "clsx";
 import css from "./AuthNav.module.css";
 
-const AuthNav = () => {
+const AuthNav = ({ onItemClick }) => {
   return (
     <div className={css.authContainer}>
       <NavLink
         to="/login"
+        onClick={onItemClick}
         className={({ isActive }) =>
           clsx(css.btn, css.btnLogin, isActive && css.active)
         }
@@ -18,6 +19,7 @@ const AuthNav = () => {
 
       <NavLink
         to="/register"
+        onClick={onItemClick}
         className={({ isActive }) =>
           clsx(css.btn, css.btnRegister, isActive && css.active)
         }

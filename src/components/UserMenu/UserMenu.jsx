@@ -4,11 +4,12 @@ import { selectAuthUser } from "../../redux/auth/selectors";
 import { apiLogout } from "../../redux/auth/operations";
 import css from "./UserMenu.module.css";
 
-const UserMenu = () => {
+const UserMenu = ({ onItemClick }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectAuthUser);
 
   const onLogout = () => {
+    onItemClick?.();
     dispatch(apiLogout());
   };
 
