@@ -158,9 +158,8 @@
 }
 
 .roleHome {
-  background-color:34b5a6;
+  background-color: #34b5a6;
   color: #ffffff;
-
 }
 
 /* 4. Колонка: Status (Вертикальний роздільник зліва, Star, Pencil, Trash) */
@@ -375,6 +374,7 @@
     width: 100%;
     border-left: none;
     padding: 0 0 0 58px;
+    justify-content: flex-start;
   }
 
   .colStatus {

@@ -64,83 +64,86 @@ const HomePage = () => {
           )}
         </div>
 
-        {/* 2. Рядок з функціональними картками */}
-        <div className={css.cardsGrid}>
-          {isLoggedIn ? (
-            <>
-              {/* Картка 1: Студенти */}
-              <div className={css.cardCol}>
-                <DashboardCard
-                  icon={<LuUsers />}
-                  title="Students"
-                  subtitle={`Manage ${studentsCount} students`}
-                  metricsText="Directory & Duty"
-                  primaryActionText="Go to Students"
-                  onPrimaryAction={() => navigate("/students")}
-                />
-              </div>
+        {/* 2. Контентний блок: Картки та Ілюстрація (з адаптивним порядком на мобільних) */}
+        <div className={css.contentWrapper}>
+          {/* Рядок з функціональними картками */}
+          <div className={css.cardsGrid}>
+            {isLoggedIn ? (
+              <>
+                {/* Картка 1: Студенти */}
+                <div className={css.cardCol}>
+                  <DashboardCard
+                    icon={<LuUsers />}
+                    title="Students"
+                    subtitle={`Manage ${studentsCount} students`}
+                    metricsText="Directory & Duty"
+                    primaryActionText="Go to Students"
+                    onPrimaryAction={() => navigate("/students")}
+                  />
+                </div>
 
-              {/* Картка 2: Контакти */}
-              <div className={css.cardCol}>
-                <DashboardCard
-                  icon={<LuContact />}
-                  title="Contacts"
-                  subtitle={`Connect ${contactsCount} contacts`}
-                  metricsText="Phone & Email"
-                  primaryActionText="Go to Contacts"
-                  onPrimaryAction={() => navigate("/contacts")}
-                />
-              </div>
+                {/* Картка 2: Контакти */}
+                <div className={css.cardCol}>
+                  <DashboardCard
+                    icon={<LuContact />}
+                    title="Contacts"
+                    subtitle={`Connect ${contactsCount} contacts`}
+                    metricsText="Phone & Email"
+                    primaryActionText="Go to Contacts"
+                    onPrimaryAction={() => navigate("/contacts")}
+                  />
+                </div>
 
-              {/* Картка 3: Відгуки */}
-              <div className={css.cardCol}>
-                <DashboardCard
-                  icon={<LuMessageSquareQuote />}
-                  title="Reviews"
-                  subtitle={`Explore ${reviewsCount} reviews`}
-                  metricsText="Community Feedback"
-                  primaryActionText="Go to Reviews"
-                  onPrimaryAction={() => navigate("/reviews")}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Картка для гостя 1: Вхід */}
-              <div className={css.cardColTwo}>
-                <DashboardCard
-                  icon={<LuLogIn />}
-                  title="Sign In"
-                  subtitle="Access your academic ecosystem"
-                  metricsText="Existing Account"
-                  primaryActionText="Go to Login"
-                  onPrimaryAction={() => navigate("/login")}
-                />
-              </div>
+                {/* Картка 3: Відгуки */}
+                <div className={css.cardCol}>
+                  <DashboardCard
+                    icon={<LuMessageSquareQuote />}
+                    title="Reviews"
+                    subtitle={`Explore ${reviewsCount} reviews`}
+                    metricsText="Community Feedback"
+                    primaryActionText="Go to Reviews"
+                    onPrimaryAction={() => navigate("/reviews")}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Картка для гостя 1: Вхід */}
+                <div className={css.cardColTwo}>
+                  <DashboardCard
+                    icon={<LuLogIn />}
+                    title="Sign In"
+                    subtitle="Access your academic ecosystem"
+                    metricsText="Existing Account"
+                    primaryActionText="Go to Login"
+                    onPrimaryAction={() => navigate("/login")}
+                  />
+                </div>
 
-              {/* Картка для гостя 2: Реєстрація */}
-              <div className={css.cardColTwo}>
-                <DashboardCard
-                  icon={<LuUserPlus />}
-                  title="Create Account"
-                  subtitle="Start managing students and contacts"
-                  metricsText="New Educator"
-                  primaryActionText="Register Now"
-                  onPrimaryAction={() => navigate("/register")}
-                />
-              </div>
-            </>
-          )}
-        </div>
+                {/* Картка для гостя 2: Реєстрація */}
+                <div className={css.cardColTwo}>
+                  <DashboardCard
+                    icon={<LuUserPlus />}
+                    title="Create Account"
+                    subtitle="Start managing students and contacts"
+                    metricsText="New Educator"
+                    primaryActionText="Register Now"
+                    onPrimaryAction={() => navigate("/register")}
+                  />
+                </div>
+              </>
+            )}
+          </div>
 
-        {/* 3. Нижній блок: Атмосферна навчальна ілюстрація */}
-        <div className={css.illustrationSection}>
-          <div className={css.illustrationWrapper}>
-            <img
-              src={dashboardSketch}
-              alt="Collaborative learning and classroom analytics"
-              className={css.illustrationImg}
-            />
+          {/* Блок навчальної ілюстрації */}
+          <div className={css.illustrationSection}>
+            <div className={css.illustrationWrapper}>
+              <img
+                src={dashboardSketch}
+                alt="Collaborative learning and classroom analytics"
+                className={css.illustrationImg}
+              />
+            </div>
           </div>
         </div>
       </Section>

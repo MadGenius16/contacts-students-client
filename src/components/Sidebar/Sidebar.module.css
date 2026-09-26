@@ -4,7 +4,6 @@
   justify-content: space-between;
   width: 240px;
   min-width: 240px;
-  height: 100vh;
   height: 100dvh;
   position: sticky;
   top: 0;
@@ -116,7 +115,6 @@
     left: 0;
     width: 280px;
     max-width: 85vw;
-    height: 100vh;
     height: 100dvh;
     max-height: 100dvh;
     padding: 20px 16px max(24px, env(safe-area-inset-bottom, 24px)) 16px;

@@ -30,6 +30,12 @@
   text-transform: capitalize;
 }
 
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 /* 2. Рядок з 3 картками (чистий Flexbox) */
 .cardsGrid {
   display: flex;
@@ -38,6 +44,7 @@
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 36px;
+  order: 1;
 }
 
 .cardCol {
@@ -54,38 +61,12 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 1024px) {
-  .cardCol {
-    flex: 1 1 calc(50% - 12px);
-  }
-}
-
-@media (max-width: 640px) {
-  .mainTitle {
-    font-size: 24px;
-  }
-
-  .welcomeText {
-    font-size: 14px;
-  }
-
-  .cardsGrid {
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .cardCol,
-  .cardColTwo {
-    flex: 1 1 100%;
-    min-width: 0;
-  }
-}
-
-/* 3. Нижня навчальна ілюстрація (Повне відображення без обрізання) */
+/* 3. Нижня навчальна ілюстрація */
 .illustrationSection {
   width: 100%;
   margin-top: 10px;
   box-sizing: border-box;
+  order: 2;
 }
 
 .illustrationWrapper {
@@ -102,4 +83,43 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* ============================================================
+   АДАПТИВНІСТЬ ДЛЯ ПЛАНШЕТІВ ТА МОБІЛЬНИХ ПРИСТРОЇВ
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .cardCol {
+    flex: 1 1 calc(50% - 12px);
+  }
+}
+
+@media (max-width: 768px) {
+  .mainTitle {
+    font-size: 24px;
+  }
+
+  .welcomeText {
+    font-size: 14px;
+  }
+
+  /* На мобільних: спочатку ілюстрація (order: 1), потім картки (order: 2) */
+  .illustrationSection {
+    order: 1;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+
+  .cardsGrid {
+    order: 2;
+    gap: 16px;
+    margin-bottom: 0;
+  }
+
+  .cardCol,
+  .cardColTwo {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
 }
