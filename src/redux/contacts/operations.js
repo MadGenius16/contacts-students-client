@@ -1,19 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "../auth/operations";
 
-const extractErrorMessage = (error) => {
-  if (error.response?.data?.message) return error.response.data.message;
-  if (error.response?.data?.data?.message)
-    return error.response.data.data.message;
-  if (error.response?.data?.error) return error.response.data.error;
-  if (typeof error.response?.data === "string") return error.response.data;
-  return error.message || "Something went wrong";
-};
-
-/*
- * GET @ /contacts
- * Отримує список контактів поточного користувача з серверною пагінацією та фільтрацією
- */
 export const fetchContacts = createAsyncThunk(
   "contacts/fetchAll",
   async (params = {}, thunkAPI) => {
@@ -41,7 +28,9 @@ export const fetchContacts = createAsyncThunk(
 
       return data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(extractErrorMessage(error));
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message,
+      );
     }
   },
 );
@@ -57,7 +46,9 @@ export const addContact = createAsyncThunk(
       const { data } = await instance.post("/contacts", contact);
       return data.data; // Повертаємо створений контакт
     } catch (error) {
-      return thunkAPI.rejectWithValue(extractErrorMessage(error));
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message,
+      );
     }
   },
 );
@@ -76,7 +67,9 @@ export const updateContact = createAsyncThunk(
       );
       return data.data; // Повертаємо оновлений контакт
     } catch (error) {
-      return thunkAPI.rejectWithValue(extractErrorMessage(error));
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message,
+      );
     }
   },
 );
@@ -92,7 +85,9 @@ export const deleteContact = createAsyncThunk(
       await instance.delete(`/contacts/${contactId}`);
       return contactId; // Повертаємо ID видаленого контакту
     } catch (error) {
-      return thunkAPI.rejectWithValue(extractErrorMessage(error));
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message,
+      );
     }
   },
 );

@@ -1,5 +1,7 @@
+import { useState, useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { LuCamera, LuTrash2 } from "react-icons/lu";
 import css from "./ContactForm.module.css";
 
 const INITIAL_STATE = {
@@ -19,8 +21,7 @@ const contactSchema = Yup.object().shape({
     .min(3, "Phone number must be at least 3 characters")
     .max(20, "Too Long!")
     .required("Phone number is required"),
-  email: Yup.string()
-    .email("Invalid email address"),
+  email: Yup.string().email("Invalid email address"),
   contactType: Yup.string()
     .oneOf(["work", "home", "personal"])
     .required("Contact type is required"),
@@ -33,6 +34,29 @@ const ContactForm = ({
   isEdit = false,
   onCancel,
 }) => {
+  const [photoFile, setPhotoFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(initialData?.photo || null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        return;
+      }
+      setPhotoFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setPhotoFile(null);
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleSubmit = (values, actions) => {
     const payload = {
       name: values.name.trim(),
@@ -41,12 +65,26 @@ const ContactForm = ({
       isFavourite: Boolean(values.isFavourite),
     };
 
-    // Додаємо email тільки якщо він не порожній (щоб уникнути помилки валідації порожнього рядка)
     if (values.email && values.email.trim()) {
       payload.email = values.email.trim();
     }
 
-    onAddContact(payload);
+    if (photoFile) {
+      const formData = new FormData();
+      formData.append("name", payload.name);
+      formData.append("phoneNumber", payload.phoneNumber);
+      if (payload.email) {
+        formData.append("email", payload.email);
+      }
+      formData.append("contactType", payload.contactType);
+      formData.append("isFavourite", payload.isFavourite);
+      formData.append("photo", photoFile);
+
+      onAddContact(formData);
+    } else {
+      onAddContact(payload);
+    }
+
     actions.resetForm();
   };
 
@@ -60,6 +98,8 @@ const ContactForm = ({
       }
     : INITIAL_STATE;
 
+  const initial = initialValues.name ? initialValues.name[0].toUpperCase() : "C";
+
   return (
     <Formik
       initialValues={initialValues}
@@ -68,6 +108,65 @@ const ContactForm = ({
       validationSchema={contactSchema}
     >
       <Form className={css.form}>
+        {/* Блок завантаження аватара */}
+        <div className={css.avatarUploadSection}>
+          <div className={css.avatarPreviewWrapper}>
+            <div className={css.avatarPreview}>
+              {previewUrl ? (
+                <img
+                  src={previewUrl}
+                  alt="Avatar preview"
+                  className={css.avatarImg}
+                />
+              ) : (
+                <span className={css.avatarInitial}>{initial}</span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              className={css.cameraBtn}
+              onClick={() => fileInputRef.current?.click()}
+              title="Upload photo"
+              aria-label="Upload photo"
+            >
+              <LuCamera className={css.cameraIcon} />
+            </button>
+          </div>
+
+          <div className={css.avatarInfo}>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/png, image/jpeg, image/webp"
+              className={css.hiddenInput}
+            />
+            <div className={css.avatarButtons}>
+              <button
+                type="button"
+                className={css.uploadBtn}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {previewUrl ? "Change photo" : "Upload photo"}
+              </button>
+
+              {previewUrl && (
+                <button
+                  type="button"
+                  className={css.removePhotoBtn}
+                  onClick={handleRemovePhoto}
+                  title="Remove photo"
+                >
+                  <LuTrash2 className={css.removeIcon} />
+                  <span>Remove</span>
+                </button>
+              )}
+            </div>
+            <span className={css.uploadHint}>JPG, PNG or WEBP</span>
+          </div>
+        </div>
+
         <div className={css.fieldGroup}>
           <label className={css.label}>
             <span className={css.labelText}>Full Name</span>

@@ -1,5 +1,7 @@
+import { useState, useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { LuCamera, LuTrash2 } from "react-icons/lu";
 import css from "./StudentForm.module.css";
 
 const INITIAL_STATE = {
@@ -46,15 +48,56 @@ const StudentForm = ({
   isEdit = false,
   onCancel,
 }) => {
+  const [photoFile, setPhotoFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(initialData?.photo || null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        return;
+      }
+      setPhotoFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setPhotoFile(null);
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleSubmit = (values, actions) => {
-    const formattedValues = {
-      ...values,
+    const payload = {
+      name: values.name.trim(),
+      phoneNumber: values.phoneNumber.trim(),
+      email: values.email.trim(),
       age: Number(values.age),
+      gender: values.gender || "male",
       avgMark: Number(values.avgMark),
       onDuty: Boolean(values.onDuty),
     };
 
-    onAddStudent(formattedValues);
+    if (photoFile) {
+      const formData = new FormData();
+      formData.append("name", payload.name);
+      formData.append("phoneNumber", payload.phoneNumber);
+      formData.append("email", payload.email);
+      formData.append("age", payload.age);
+      formData.append("gender", payload.gender);
+      formData.append("avgMark", payload.avgMark);
+      formData.append("onDuty", payload.onDuty);
+      formData.append("photo", photoFile);
+
+      onAddStudent(formData);
+    } else {
+      onAddStudent(payload);
+    }
+
     actions.resetForm();
   };
 
@@ -70,6 +113,8 @@ const StudentForm = ({
       }
     : INITIAL_STATE;
 
+  const initial = initialValues.name ? initialValues.name[0].toUpperCase() : "S";
+
   return (
     <Formik
       initialValues={initialValues}
@@ -78,6 +123,65 @@ const StudentForm = ({
       validationSchema={studentSchema}
     >
       <Form className={css.form}>
+        {/* Блок завантаження аватара студента */}
+        <div className={css.avatarUploadSection}>
+          <div className={css.avatarPreviewWrapper}>
+            <div className={css.avatarPreview}>
+              {previewUrl ? (
+                <img
+                  src={previewUrl}
+                  alt="Avatar preview"
+                  className={css.avatarImg}
+                />
+              ) : (
+                <span className={css.avatarInitial}>{initial}</span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              className={css.cameraBtn}
+              onClick={() => fileInputRef.current?.click()}
+              title="Upload photo"
+              aria-label="Upload photo"
+            >
+              <LuCamera className={css.cameraIcon} />
+            </button>
+          </div>
+
+          <div className={css.avatarInfo}>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/png, image/jpeg, image/webp"
+              className={css.hiddenInput}
+            />
+            <div className={css.avatarButtons}>
+              <button
+                type="button"
+                className={css.uploadBtn}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {previewUrl ? "Change photo" : "Upload photo"}
+              </button>
+
+              {previewUrl && (
+                <button
+                  type="button"
+                  className={css.removePhotoBtn}
+                  onClick={handleRemovePhoto}
+                  title="Remove photo"
+                >
+                  <LuTrash2 className={css.removeIcon} />
+                  <span>Remove</span>
+                </button>
+              )}
+            </div>
+            <span className={css.uploadHint}>JPG, PNG or WEBP</span>
+          </div>
+        </div>
+
         <div className={css.fieldGroup}>
           <label className={css.label}>
             <span className={css.labelText}>Full Name</span>
@@ -130,7 +234,7 @@ const StudentForm = ({
         </div>
 
         <div className={css.row}>
-          <div className={css.fieldGroup}>
+          <div className={css.colItem}>
             <label className={css.label}>
               <span className={css.labelText}>Age</span>
               <Field
@@ -147,7 +251,7 @@ const StudentForm = ({
             </label>
           </div>
 
-          <div className={css.fieldGroup}>
+          <div className={css.colItem}>
             <label className={css.label}>
               <span className={css.labelText}>Gender</span>
               <Field as="select" className={css.selectField} name="gender">
@@ -163,7 +267,7 @@ const StudentForm = ({
             </label>
           </div>
 
-          <div className={css.fieldGroup}>
+          <div className={css.colItem}>
             <label className={css.label}>
               <span className={css.labelText}>Avg Mark</span>
               <Field
